@@ -1,13 +1,15 @@
 pragma solidity ^0.6.0;
 
-import "node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "node_modules/@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "node_modules/@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
 
-
+//below interface used for the AuctionNft contract to be able to receive AuctionNft
+import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721Holder.sol";
 import "contracts/interfaces/IAuctionERC721.sol";
 
-contract AuctionNft {
+contract AuctionNft is ERC721Holder{
 
   //we get the address so that we can call the functions directly
   IAuctionERC721 public auctionERC721;
@@ -22,13 +24,14 @@ contract AuctionNft {
   enum AuctionStatus { NotStarted, Bidding, EndAuction , AuctionClaimed}
 
   struct AuctionDetails {
+    address tokenERC721;
     address payable auctioneer;
     address payable currentWinner;
     //ERC721 nftContract; //will initially be the address provided by msg.sender when filling a box maybe so that nftContract: ERC721(address);
     uint auctionId;
     AuctionStatus auctionStatus;
     uint startPrice;
-    uint tokenId;
+    uint256 tokenId;
     bool auctionComplete;
     //address[] bidders;
     //uint minimumIncrement;
@@ -50,6 +53,17 @@ contract AuctionNft {
     owner = msg.sender;
   }
 
+  //either we are going to use the below or the transfer function
+
+  //present in ERC721Holder but will it work??
+  /*
+  function onERC721Received(address _operator, address _from, uint256 _tokenId, bytes _data)
+  external
+  returns(bytes4) {
+    return 0x150b7a02;
+  }
+  */
+
   //in the createauction function, we will send ownership of the tokenId to the contract itself
   function createAuction() public {
 
@@ -58,8 +72,10 @@ contract AuctionNft {
   function startAuction (uint _auctionId)
   external
   {
-    require(auctions[_auctionId].auctionStatus == AuctionStatus.NotStarted, "Auction is already live or finished");
-    auctions[_auctionId].auctionStatus = AuctionStatus.Bidding;
+    AuctionDetails storage details = auctions[_auctionId];
+    require(details.auctionStatus == AuctionStatus.NotStarted, "Auction is already live or finished");
+    IERC721(details.tokenERC721).safeTransferFrom(msg.sender, address(this), details.tokenId); //not possible to use require here as safeTransferFrom doesn't return anything
+    details.auctionStatus = AuctionStatus.Bidding;
   }
 
   function bidAuction () external {

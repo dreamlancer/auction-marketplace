@@ -26,27 +26,27 @@
       "type": "function"
     }
   ],
-  "metadata": "{\"compiler\":{\"version\":\"0.6.12+commit.27d51765\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_receiver\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"_uri\",\"type\":\"string\"}],\"name\":\"addNewToken\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"_tokenId\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/home/thibault/Documents/Ethereum/ConsensysBootcamp/FinalProjectThibault/contracts/interfaces/IAuctionERC721.sol\":\"IAuctionERC721\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/thibault/Documents/Ethereum/ConsensysBootcamp/FinalProjectThibault/contracts/interfaces/IAuctionERC721.sol\":{\"keccak256\":\"0x5a535be82b1e84da81aba5777f75a51b1f9955a32040adfc8477f2b8e803b0ec\",\"urls\":[\"bzz-raw://a2b4e685a187d047c2e9e41c9aaae364c211c31ee5f03a40b844bcc628d04417\",\"dweb:/ipfs/QmYxoyu35jDTnCdvMqs71BhjoPYTUJTLds4y7z2V6TKNBG\"]}},\"version\":1}",
+  "metadata": "{\"compiler\":{\"version\":\"0.6.12+commit.27d51765\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_receiver\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"_uri\",\"type\":\"string\"}],\"name\":\"addNewToken\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"_tokenId\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/home/thibault/Documents/Ethereum/ConsensysBootcamp/FinalProjectThibault/contracts/interfaces/IAuctionERC721.sol\":\"IAuctionERC721\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/thibault/Documents/Ethereum/ConsensysBootcamp/FinalProjectThibault/contracts/interfaces/IAuctionERC721.sol\":{\"keccak256\":\"0x51026eb01b51849cd84d2dac2f9762550d252261dfe4f56fd7b35c31c30cfcc1\",\"urls\":[\"bzz-raw://5f890e3f2da34d54191f5f5046e4e56aa4386e4619aa31132d75b58e2c836ae5\",\"dweb:/ipfs/QmT23U3WcAcMdMSUxaq3X2NCyX6KRHoLGJyePPdRkbqPAS\"]}},\"version\":1}",
   "bytecode": "0x",
   "deployedBytecode": "0x",
   "immutableReferences": {},
   "sourceMap": "",
   "deployedSourceMap": "",
-  "source": "pragma solidity ^0.6.0;\n\ninterface IAuctionERC721 {\n  function addNewToken(address _receiver, string calldata _uri) external returns (uint256 _tokenId);\n}\n",
+  "source": "pragma solidity ^0.6.0;\n\ninterface IAuctionERC721 {\n  function addNewToken(address _receiver, string calldata _uri) external returns (uint256 _tokenId);\n  //function sendToken(address _sender, address _receiver, uint256 _tokenId) external;\n}\n",
   "sourcePath": "/home/thibault/Documents/Ethereum/ConsensysBootcamp/FinalProjectThibault/contracts/interfaces/IAuctionERC721.sol",
   "ast": {
     "absolutePath": "/home/thibault/Documents/Ethereum/ConsensysBootcamp/FinalProjectThibault/contracts/interfaces/IAuctionERC721.sol",
     "exportedSymbols": {
       "IAuctionERC721": [
-        282
+        412
       ]
     },
-    "id": 283,
+    "id": 413,
     "license": null,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 272,
+        "id": 402,
         "literals": [
           "solidity",
           "^",
@@ -63,9 +63,9 @@
         "contractKind": "interface",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 282,
+        "id": 412,
         "linearizedBaseContracts": [
-          282
+          412
         ],
         "name": "IAuctionERC721",
         "nodeType": "ContractDefinition",
@@ -74,7 +74,7 @@
             "body": null,
             "documentation": null,
             "functionSelector": "2a9f2f14",
-            "id": 281,
+            "id": 411,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
@@ -82,17 +82,17 @@
             "nodeType": "FunctionDefinition",
             "overrides": null,
             "parameters": {
-              "id": 277,
+              "id": 407,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 274,
+                  "id": 404,
                   "mutability": "mutable",
                   "name": "_receiver",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 281,
+                  "scope": 411,
                   "src": "75:17:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -101,7 +101,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 273,
+                    "id": 403,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "75:7:3",
@@ -116,12 +116,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 276,
+                  "id": 406,
                   "mutability": "mutable",
                   "name": "_uri",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 281,
+                  "scope": 411,
                   "src": "94:20:3",
                   "stateVariable": false,
                   "storageLocation": "calldata",
@@ -130,7 +130,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 275,
+                    "id": 405,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "94:6:3",
@@ -146,17 +146,17 @@
               "src": "74:41:3"
             },
             "returnParameters": {
-              "id": 280,
+              "id": 410,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 279,
+                  "id": 409,
                   "mutability": "mutable",
                   "name": "_tokenId",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 281,
+                  "scope": 411,
                   "src": "134:16:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -165,7 +165,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 278,
+                    "id": 408,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "134:7:3",
@@ -180,32 +180,32 @@
               ],
               "src": "133:18:3"
             },
-            "scope": 282,
+            "scope": 412,
             "src": "54:98:3",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "external"
           }
         ],
-        "scope": 283,
-        "src": "25:129:3"
+        "scope": 413,
+        "src": "25:216:3"
       }
     ],
-    "src": "0:155:3"
+    "src": "0:242:3"
   },
   "legacyAST": {
     "absolutePath": "/home/thibault/Documents/Ethereum/ConsensysBootcamp/FinalProjectThibault/contracts/interfaces/IAuctionERC721.sol",
     "exportedSymbols": {
       "IAuctionERC721": [
-        282
+        412
       ]
     },
-    "id": 283,
+    "id": 413,
     "license": null,
     "nodeType": "SourceUnit",
     "nodes": [
       {
-        "id": 272,
+        "id": 402,
         "literals": [
           "solidity",
           "^",
@@ -222,9 +222,9 @@
         "contractKind": "interface",
         "documentation": null,
         "fullyImplemented": false,
-        "id": 282,
+        "id": 412,
         "linearizedBaseContracts": [
-          282
+          412
         ],
         "name": "IAuctionERC721",
         "nodeType": "ContractDefinition",
@@ -233,7 +233,7 @@
             "body": null,
             "documentation": null,
             "functionSelector": "2a9f2f14",
-            "id": 281,
+            "id": 411,
             "implemented": false,
             "kind": "function",
             "modifiers": [],
@@ -241,17 +241,17 @@
             "nodeType": "FunctionDefinition",
             "overrides": null,
             "parameters": {
-              "id": 277,
+              "id": 407,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 274,
+                  "id": 404,
                   "mutability": "mutable",
                   "name": "_receiver",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 281,
+                  "scope": 411,
                   "src": "75:17:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -260,7 +260,7 @@
                     "typeString": "address"
                   },
                   "typeName": {
-                    "id": 273,
+                    "id": 403,
                     "name": "address",
                     "nodeType": "ElementaryTypeName",
                     "src": "75:7:3",
@@ -275,12 +275,12 @@
                 },
                 {
                   "constant": false,
-                  "id": 276,
+                  "id": 406,
                   "mutability": "mutable",
                   "name": "_uri",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 281,
+                  "scope": 411,
                   "src": "94:20:3",
                   "stateVariable": false,
                   "storageLocation": "calldata",
@@ -289,7 +289,7 @@
                     "typeString": "string"
                   },
                   "typeName": {
-                    "id": 275,
+                    "id": 405,
                     "name": "string",
                     "nodeType": "ElementaryTypeName",
                     "src": "94:6:3",
@@ -305,17 +305,17 @@
               "src": "74:41:3"
             },
             "returnParameters": {
-              "id": 280,
+              "id": 410,
               "nodeType": "ParameterList",
               "parameters": [
                 {
                   "constant": false,
-                  "id": 279,
+                  "id": 409,
                   "mutability": "mutable",
                   "name": "_tokenId",
                   "nodeType": "VariableDeclaration",
                   "overrides": null,
-                  "scope": 281,
+                  "scope": 411,
                   "src": "134:16:3",
                   "stateVariable": false,
                   "storageLocation": "default",
@@ -324,7 +324,7 @@
                     "typeString": "uint256"
                   },
                   "typeName": {
-                    "id": 278,
+                    "id": 408,
                     "name": "uint256",
                     "nodeType": "ElementaryTypeName",
                     "src": "134:7:3",
@@ -339,18 +339,18 @@
               ],
               "src": "133:18:3"
             },
-            "scope": 282,
+            "scope": 412,
             "src": "54:98:3",
             "stateMutability": "nonpayable",
             "virtual": false,
             "visibility": "external"
           }
         ],
-        "scope": 283,
-        "src": "25:129:3"
+        "scope": 413,
+        "src": "25:216:3"
       }
     ],
-    "src": "0:155:3"
+    "src": "0:242:3"
   },
   "compiler": {
     "name": "solc",
@@ -358,7 +358,7 @@
   },
   "networks": {},
   "schemaVersion": "3.3.1",
-  "updatedAt": "2020-11-02T13:19:22.429Z",
+  "updatedAt": "2020-11-04T14:54:40.475Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},

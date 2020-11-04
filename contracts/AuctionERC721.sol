@@ -4,6 +4,8 @@ import "node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "node_modules/@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
 
+
+
 import "contracts/interfaces/IAuctionERC721.sol";
 
 // will add the nft details in the deployment script
@@ -72,6 +74,14 @@ contract AuctionERC721 is ERC721, Ownable, IAuctionERC721 {
   {
     return _createToken(_uri, _receiver);
   }
+
+  /*
+  function sendToken(address _sender, address _receiver, uint256 _tokenId)
+  external
+  {
+    safeTransferFrom(_sender, _receiver, _tokenId);
+  }
+  */
 
   function removeToken(uint256 _tokenId)
   external
