@@ -15,31 +15,9 @@ contract AuctionERC721 is ERC721, Ownable, IAuctionERC721 {
 
   address public whitelisted;
 
-  //mapping of auctionId to AuctionDetails
-  mapping (uint256 => AuctionDetails) public auctions;
-
-  //pull over push design choice
-  mapping(address => uint256) bids;
-
-  //enum to check auction status
-  enum AuctionStatus { NotStarted, Bidding, EndAuction , AuctionClaimed}
-
   //mapping of token ids to their owners. Not to forget that state variables _tokenOwners will also be updated upon minting, transfer...
   mapping (uint256 => address) private tokenCreators;
 
-  struct AuctionDetails {
-    address payable auctioneer;
-    address payable currentWinner;
-    //ERC721 nftContract; //will initially be the address provided by msg.sender when filling a box maybe so that nftContract: ERC721(address);
-    uint auctionId;
-    AuctionStatus auctionStatus;
-    uint startPrice;
-    uint tokenId;
-    bool auctionComplete;
-    //address[] bidders;
-    //uint minimumIncrement;
-    //variable for auction duration as well
-  }
 
   constructor (
     string memory _name,
@@ -119,38 +97,4 @@ contract AuctionERC721 is ERC721, Ownable, IAuctionERC721 {
     return newId;
   }
 
-  // we can use the uri metadat as input
-  function initializeAuction () external {
-    //set to active
-  }
-
-  function startAuction (uint _auctionId)
-  external
-  onlyTokenOwner (auctions[_auctionId].tokenId)
-  {
-    require(auctions[_auctionId].auctionStatus == AuctionStatus.NotStarted, "Auction is already live or finished");
-    auctions[_auctionId].auctionStatus = AuctionStatus.Bidding;
-  }
-
-  function bidAuction () external {
-
-  }
-
-  function withdrawNft (uint256 _auctionId) public  {
-    AuctionDetails storage details = auctions[_auctionId];
-    require(details.auctionComplete == true, "Auction must be active");
-    require(msg.sender == details.currentWinner, "you are not the winner, nice try :)");
-    details.auctionStatus == AuctionStatus.AuctionClaimed;
-    require(bids[msg.sender] != 0, "no bids placed");
-    bids[msg.sender] = 0;
-    safeTransferFrom(details.auctioneer, msg.sender, details.tokenId);
-  }
-
-  function withdrawBid () public {
-    //to implement pull over push pattern
-    require(bids[msg.sender] != 0, "no bid to withdraw");
-    //bids[msg.sender] = 0;
-    //what happens to the current winner variable if highest bidder withdraw his/her bid??
-    msg.sender.transfer(bids[msg.sender]);
-  }
 }
