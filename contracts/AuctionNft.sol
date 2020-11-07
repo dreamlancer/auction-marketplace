@@ -44,6 +44,8 @@ contract AuctionNft is ERC721Holder{
     //variable for auction duration as well
   }
 
+  AuctionDetails[] public nftAuctions;
+
   address private owner;
 
   event NewAuctionERC721(address indexed _auctionERC721, uint _timestamp);
@@ -95,6 +97,8 @@ contract AuctionNft is ERC721Holder{
       tokenId : _tokenId,
       auctionComplete : false
       });
+
+    nftAuctions.push(newAuction);
     auctions[auctionCount] = newAuction;
 
     //let's start the function internally first
@@ -163,7 +167,7 @@ contract AuctionNft is ERC721Holder{
   public
   {
     //to implement pull over push pattern
-    AuctionDetails memory details = auctions[_auctionId];
+    //AuctionDetails memory details = auctions[_auctionId];
     require(pendingReturns[msg.sender][_auctionId] != 0, "no bid to withdraw");
     //bids[msg.sender] = 0;
     //what happens to the current winner variable if highest bidder withdraw his/her bid??
@@ -177,6 +181,23 @@ contract AuctionNft is ERC721Holder{
   {
     auctionERC721 = IAuctionERC721(_auctionERC721);
     emit NewAuctionERC721(_auctionERC721, now);
+  }
+
+  function getNumberOfAuctions()
+  external
+  view
+  returns(uint256 _nbOfFarms)
+  {
+    return nftAuctions.length;
+  }
+
+  function getFarmInfo(uint256 _auctionId)
+  external
+  view
+  returns (address _tokenERC721, address _auctioneer, address _currentWinner, uint auctionId, AuctionStatus _auctionStatus, uint _highestBid, uint _startPrice, uint _tokenId, bool _auctionComplete)
+  {
+    AuctionDetails memory auction = auctions[_auctionId];
+    return (auction.tokenERC721, auction.auctioneer, auction.currentWinner, auction.auctionId, auction.auctionStatus, auction.highestBid, auction.startPrice, auction.tokenId, auction.auctionComplete);
   }
 
 }
