@@ -11,7 +11,7 @@ import "contracts/interfaces/IAuctionERC721.sol";
 
 contract AuctionNft is ERC721Holder{
 
-  //we get the address so that we can call the functions directly
+  //we get the address so that we can call the functions directly (potentially future features)
   IAuctionERC721 public auctionERC721;
 
   //mapping of auctionId to AuctionDetails
@@ -64,8 +64,8 @@ contract AuctionNft is ERC721Holder{
   constructor(address _auctionERC721)
   public
   {
-    setContractERC721(_auctionERC721);
     owner = msg.sender;
+    setContractERC721(_auctionERC721);
   }
 
   //either we are going to use the below or the transfer function
