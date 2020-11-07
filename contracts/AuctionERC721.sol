@@ -86,6 +86,7 @@ contract AuctionERC721 is ERC721, Ownable, IAuctionERC721 {
   function removeToken(uint256 _tokenId)
   external
   onlyTokenOwner(_tokenId)
+  override // marks as overrode as _burn is virtual
   {
     _burn(_tokenId);
   }

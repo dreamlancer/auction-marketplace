@@ -17,10 +17,13 @@ contract AuctionNft is ERC721Holder{
   //mapping of auctionId to AuctionDetails
   mapping (uint256 => AuctionDetails) public auctions;
 
+  //counter for number of auctions
+  uint256 auctionCount;
 
   // Allowed withdrawals of previous bids
   // pull over push design
-  mapping(address => uint256) pendingReturns;
+  //"a bidder can bid on different auctions a specific amount"
+  mapping(address => mapping (uint256 => uint256)) pendingReturns;
 
   //enum to check auction status
   enum AuctionStatus { NotStarted, Bidding, EndAuction , AuctionClaimed}
@@ -42,11 +45,14 @@ contract AuctionNft is ERC721Holder{
   }
 
   address private owner;
+
   event NewAuctionERC721(address indexed _auctionERC721, uint _timestamp);
-
-
-  event HighestBidIncreased(address currentWinner, uint highestBid);
-
+  event NewAuctionCreated(address _auctioneer, uint _auctionId);
+  event HighestBidIncreased(address _currentWinner, uint _highestBid);
+  event NewAutionStarted(address _creator, uint _auctionId);
+  event AuctionEnded(uint _auctionId);
+  event NftWithdrawn(uint _tokenId, address _nftWinner);
+  event BidWithdrawn(address _bidder);
 
   modifier onlyOwner() {
     require(owner == msg.sender, "you are not authorized for this");
@@ -72,48 +78,84 @@ contract AuctionNft is ERC721Holder{
   */
 
   //in the createauction function, we will send ownership of the tokenId to the contract itself
-  function createAuction() public {
+  function createAuction(address _tokenERC721, uint256 _startPrice, uint _tokenId) public returns (uint _accountId){
+    //require(auctionERC721.ownerOf(_tokenId) == msg.sender);
 
+    AuctionDetails memory newAuction = AuctionDetails({
+      tokenERC721 : _tokenERC721,
+      auctioneer : msg.sender,
+      currentWinner : address(0),
+      auctionId : auctionCount,
+      auctionStatus : AuctionStatus.NotStarted,
+      highestBid : 0,
+      startPrice : _startPrice,
+      tokenId : _tokenId,
+      auctionComplete : false
+      });
+    auctions[auctionCount] = newAuction;
+
+    //let's start the function internally first
+    //the transferFrom in the below function should succeed else the entire createAuction call will revert
+    startAuction(auctionCount);
+
+    auctionCount ++;
+    emit NewAuctionCreated(msg.sender, auctionCount);
+
+    return auctionCount;
   }
 
   function startAuction (uint _auctionId)
-  external
+  internal
   {
-    AuctionDetails memory details = auctions[_auctionId];
+    AuctionDetails storage details = auctions[_auctionId];
     require(details.auctionStatus == AuctionStatus.NotStarted, "Auction is already live or finished");
     IERC721(details.tokenERC721).safeTransferFrom(msg.sender, address(this), details.tokenId); //not possible to use require here as safeTransferFrom doesn't return anything
+    //require(IERC721(details.tokenERC721).transferFrom(msg.sender, address(this), details.tokenId), "token transfer failed");
     details.auctionStatus = AuctionStatus.Bidding;
+    emit NewAutionStarted(msg.sender, _auctionId);
   }
 
   function bidAuction (uint _auctionId) external payable {
-    AuctionDetails memory details = auctions[_auctionId];
+    AuctionDetails storage details = auctions[_auctionId];
     require(details.auctionStatus == AuctionStatus.Bidding, "Auction is not bidabble yet");
     require(msg.value > details.highestBid, "bid not high enough");
     if(details.highestBid != 0) {
-      pendingReturns[details.currentWinner] += details.highestBid;
+      pendingReturns[details.currentWinner][_auctionId] += details.highestBid;
     }
     details.highestBid = msg.value;
     details.currentWinner = msg.sender;
     emit HighestBidIncreased(msg.sender, msg.value);
   }
 
+  function endAuction (uint _auctionId) public {
+    AuctionDetails storage details = auctions[_auctionId];
+    require(details.auctionStatus == AuctionStatus.Bidding, "Auction not biddable nor created yet");
+    details.auctionComplete = true;
+    emit AuctionEnded(_auctionId);
+  }
+
   function withdrawNft (uint256 _auctionId) public  {
-    AuctionDetails memory details = auctions[_auctionId];
+    AuctionDetails storage details = auctions[_auctionId];
     require(details.auctionComplete == true, "Auction must be active");
     require(msg.sender == details.currentWinner, "you are not the winner, nice try :)");
+    IERC721(details.tokenERC721).safeTransferFrom(address(this), msg.sender,  details.tokenId);
+    pendingReturns[msg.sender][_auctionId] = 0;
     details.auctionStatus == AuctionStatus.AuctionClaimed;
+    emit NftWithdrawn(details.tokenId, details.currentWinner);
     /* below might not be needed if we never push current winner bid into the pendingReturns mapping */
     //require(pendingReturns[msg.sender] != 0, "no bids placed");
     //pendingReturns[msg.sender] = 0;
     //safeTransferFrom(details.auctioneer, msg.sender, details.tokenId);
   }
 
-  function withdrawBid () public {
+  function withdrawBid (uint256 _auctionId) public {
     //to implement pull over push pattern
-    require(pendingReturns[msg.sender] != 0, "no bid to withdraw");
+    AuctionDetails memory details = auctions[_auctionId];
+    require(pendingReturns[msg.sender][_auctionId] != 0, "no bid to withdraw");
     //bids[msg.sender] = 0;
     //what happens to the current winner variable if highest bidder withdraw his/her bid??
-    msg.sender.transfer(pendingReturns[msg.sender]);
+    msg.sender.transfer(pendingReturns[msg.sender][_auctionId]);
+    emit BidWithdrawn(msg.sender);
   }
 
   function setContractERC721(address _auctionERC721)
