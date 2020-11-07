@@ -78,7 +78,10 @@ contract AuctionNft is ERC721Holder{
   */
 
   //in the createauction function, we will send ownership of the tokenId to the contract itself
-  function createAuction(address _tokenERC721, uint256 _startPrice, uint _tokenId) public returns (uint _accountId){
+  function createAuction(address _tokenERC721, uint256 _startPrice, uint _tokenId)
+  public
+  returns (uint _accountId)
+  {
     //require(auctionERC721.ownerOf(_tokenId) == msg.sender);
 
     AuctionDetails memory newAuction = AuctionDetails({
@@ -104,6 +107,7 @@ contract AuctionNft is ERC721Holder{
     return auctionCount;
   }
 
+
   function startAuction (uint _auctionId)
   internal
   {
@@ -115,7 +119,10 @@ contract AuctionNft is ERC721Holder{
     emit NewAutionStarted(msg.sender, _auctionId);
   }
 
-  function bidAuction (uint _auctionId) external payable {
+  function bidAuction (uint _auctionId)
+  external
+  payable
+  {
     AuctionDetails storage details = auctions[_auctionId];
     require(details.auctionStatus == AuctionStatus.Bidding, "Auction is not bidabble yet");
     require(msg.value > details.highestBid, "bid not high enough");
@@ -127,14 +134,18 @@ contract AuctionNft is ERC721Holder{
     emit HighestBidIncreased(msg.sender, msg.value);
   }
 
-  function endAuction (uint _auctionId) public {
+  function endAuction (uint _auctionId)
+  public
+  {
     AuctionDetails storage details = auctions[_auctionId];
     require(details.auctionStatus == AuctionStatus.Bidding, "Auction not biddable nor created yet");
     details.auctionComplete = true;
     emit AuctionEnded(_auctionId);
   }
 
-  function withdrawNft (uint256 _auctionId) public  {
+  function withdrawNft (uint256 _auctionId)
+  public
+  {
     AuctionDetails storage details = auctions[_auctionId];
     require(details.auctionComplete == true, "Auction must be active");
     require(msg.sender == details.currentWinner, "you are not the winner, nice try :)");
@@ -148,7 +159,9 @@ contract AuctionNft is ERC721Holder{
     //safeTransferFrom(details.auctioneer, msg.sender, details.tokenId);
   }
 
-  function withdrawBid (uint256 _auctionId) public {
+  function withdrawBid (uint256 _auctionId)
+  public
+  {
     //to implement pull over push pattern
     AuctionDetails memory details = auctions[_auctionId];
     require(pendingReturns[msg.sender][_auctionId] != 0, "no bid to withdraw");

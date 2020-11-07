@@ -108,4 +108,17 @@ contract AuctionERC721 is ERC721, Ownable, IAuctionERC721 {
     return newId;
   }
 
+  function getTokenCreators()
+  external
+  view
+  override
+  returns (uint256[] memory)
+  {
+    uint256 count = balanceOf(msg.sender);
+    uint256[] memory result = new uint256[](count);
+    for (uint i = 0; i < count; i++) {
+      result[i] = tokenOfOwnerByIndex(msg.sender, i);
+    }
+  }
+
 }
