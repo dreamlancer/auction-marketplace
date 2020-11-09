@@ -9,6 +9,10 @@ import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721Holder.sol";
 import "contracts/interfaces/IAuctionERC721.sol";
 
+/**
+ * @title Inheritance
+ * @dev Our contract needs to support safeTransfers
+ */
 contract AuctionNft is ERC721Holder{
 
   //we get the address so that we can call the functions directly (potentially future features)

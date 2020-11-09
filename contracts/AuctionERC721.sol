@@ -12,6 +12,9 @@ import "contracts/interfaces/IAuctionERC721.sol";
 // contract to handle minting, removal... of the nft used in auctions
 contract AuctionERC721 is ERC721, Ownable, IAuctionERC721 {
 
+  //protecting against overflows/underflows
+  using SafeMath for uint256;
+
   // Counter variable for creation of token IDs and used to pass to the mint function, verifying nft doesn't exist yet
   uint256 private idCounter;
 
