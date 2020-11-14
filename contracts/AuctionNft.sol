@@ -22,7 +22,7 @@ contract AuctionNft is ERC721Holder{
   mapping (uint256 => AuctionDetails) public auctions;
 
   //counter for number of auctions
-  uint256 auctionCount;
+  uint256 public auctionCount;
 
   // Allowed withdrawals of previous bids
   // pull over push design
@@ -50,7 +50,7 @@ contract AuctionNft is ERC721Holder{
 
   AuctionDetails[] public nftAuctions;
 
-  address private owner;
+  address public owner;
 
   event NewAuctionERC721(address indexed _auctionERC721, uint _timestamp);
   event NewAuctionCreated(address _auctioneer, uint _auctionId);
