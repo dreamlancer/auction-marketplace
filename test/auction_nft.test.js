@@ -5,6 +5,8 @@ let catchRevert = require("./exceptionHelpers.js").catchRevert
 contract('AuctionNft', function(accounts) {
 
   const deployer = accounts[0];
+  const account2 = accounts[1];
+  const account3 = accounts[2];
 
   beforeEach("create an instance of AuctionNft", async function() {
       instanceERC721 = await AuctionERC721.new("Auction NFT", "ANFT", {from: accounts[0]});
@@ -67,7 +69,94 @@ contract('AuctionNft', function(accounts) {
       assert.equal(result[6].toString().slice(0, 1), 1);
       assert.equal(result[7].toNumber(), 0);
       assert.equal(result[8], false);
-})
+    })
+
+    it("can throw error when trying to pull nft while auction has not ended yet", async() => {
+      await instanceERC721.addNewToken(deployer, "", {from: accounts[0]});
+      await instanceERC721.approve(instanceNft.address, 0, {from: accounts[0]});
+      await instanceNft.createAuction(instanceERC721.address, 1, 0, {from: accounts[0]});
+      await instanceNft.bidAuction(0, {from: accounts[1], value: web3.utils.toWei("2", "ether")});
+      await catchRevert(instanceNft.withdrawNft(0, {from: accounts[1]}));
+    })
+
+    it("can throw error when current winner tries to withdraw a bid", async() => {
+      await instanceERC721.addNewToken(deployer, "", {from: accounts[0]});
+      await instanceERC721.approve(instanceNft.address, 0, {from: accounts[0]});
+      await instanceNft.createAuction(instanceERC721.address, 1, 0, {from: accounts[0]});
+      await instanceNft.bidAuction(0, {from: accounts[1], value: web3.utils.toWei("2", "ether")});
+      await instanceNft.bidAuction(0, {from: accounts[2], value: web3.utils.toWei("3", "ether")});
+      await instanceNft.withdrawBid(0, {from: accounts[1]});
+      let endBalance = await web3.eth.getBalance(accounts[1]);
+      await catchRevert(instanceNft.withdrawBid(0, {from: accounts[2]}));
+      // let's try balance before and balance after method
+      assert.equal(endBalance.toString().slice(0, 3), 999);
+    })
+
+    it("can throw an error when a bidder is trying to withdraw a bid twice or someone else bid", async() => {
+      await instanceERC721.addNewToken(deployer, "", {from: accounts[0]});
+      await instanceERC721.approve(instanceNft.address, 0, {from: accounts[0]});
+      await instanceNft.createAuction(instanceERC721.address, 1, 0, {from: accounts[0]});
+      await instanceNft.bidAuction(0, {from: accounts[1], value: web3.utils.toWei("2", "ether")});
+      await instanceNft.bidAuction(0, {from: accounts[2], value: web3.utils.toWei("3", "ether")});
+      await instanceNft.bidAuction(0, {from: accounts[3], value: web3.utils.toWei("4", "ether")});
+      await instanceNft.withdrawBid(0, {from: accounts[1]});
+      await catchRevert(instanceNft.withdrawBid(0, {from: accounts[1]}));
+      await catchRevert(instanceNft.withdrawBid(1, {from: accounts[1]}));
+    })
+
+    it("can verify the number of auction and tokenId are correct when multiple auctions", async() => {
+      await instanceERC721.addNewToken(deployer, "", {from: accounts[0]});
+      await instanceERC721.approve(instanceNft.address, 0, {from: accounts[0]});
+      await instanceNft.createAuction(instanceERC721.address, 1, 0, {from: accounts[0]});
+
+      await instanceERC721.addNewToken(account2, "", {from: accounts[1]});
+      await instanceERC721.approve(instanceNft.address, 1, {from: accounts[1]});
+      await instanceNft.createAuction(instanceERC721.address, 5, 1, {from: accounts[1]});
+
+      await instanceERC721.addNewToken(account3, "", {from: accounts[2]});
+      await instanceERC721.approve(instanceNft.address, 2, {from: accounts[2]});
+      await instanceNft.createAuction(instanceERC721.address, 1, 2, {from: accounts[2]});
+
+      let auctionCount = await instanceNft.auctionCount.call();
+      assert.equal(auctionCount, 3);
+
+      const result1 = await instanceNft.getFarmInfo.call(0);
+      const result2 = await instanceNft.getFarmInfo.call(1);
+      const result3 = await instanceNft.getFarmInfo.call(2);
+      assert.equal(result1[7].toNumber(), 0);
+      assert.equal(result2[7].toNumber(), 1);
+      assert.equal(result3[7].toNumber(), 2);
+    })
+
+    it("verify that only the auctioneer can end his specific auction", async() => {
+      await instanceERC721.addNewToken(deployer, "", {from: accounts[0]});
+      await instanceERC721.approve(instanceNft.address, 0, {from: accounts[0]});
+      await instanceNft.createAuction(instanceERC721.address, 1, 0, {from: accounts[0]});
+
+      await catchRevert(instanceNft.endAuction(0, {from: accounts[1]}));
+      await instanceNft.endAuction(0, {from: accounts[0]});
+
+      const result = await instanceNft.getFarmInfo.call(0);
+      assert.equal(result[8], true);
+    })
+
+    it("verify that the winner is the owner of the nft after ", async() => {
+      await instanceERC721.addNewToken(deployer, "", {from: accounts[0]});
+      await instanceERC721.approve(instanceNft.address, 0, {from: accounts[0]});
+      await instanceNft.createAuction(instanceERC721.address, 1, 0, {from: accounts[0]});
+      await instanceNft.bidAuction(0, {from: accounts[1], value: web3.utils.toWei("2", "ether")});
+      await instanceNft.endAuction(0, {from: accounts[0]});
+      await catchRevert(instanceNft.withdrawNft(0, {from: accounts[2]}));
+      await instanceNft.withdrawNft(0, {from: accounts[1]});
+      await catchRevert(instanceNft.withdrawNft(0, {from: accounts[1]})); // logically it would fail as nft was already sent from contract
+
+      let nftOwner = await instanceERC721.ownerOf(0);
+      assert.equal(nftOwner, account2);
+    })
+
+    it("verify an auction process end to end workflow (multiple bids, winner)", async() => {
+      
+    })
 
 })
 

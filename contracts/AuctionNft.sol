@@ -147,6 +147,7 @@ contract AuctionNft is ERC721Holder{
   {
     AuctionDetails storage details = auctions[_auctionId];
     require(details.auctionStatus == AuctionStatus.Bidding, "Auction not biddable nor created yet");
+    require(details.auctioneer == msg.sender);
     details.auctionComplete = true;
     emit AuctionEnded(_auctionId);
   }
@@ -173,9 +174,14 @@ contract AuctionNft is ERC721Holder{
     //to implement pull over push pattern
     //AuctionDetails memory details = auctions[_auctionId];
     require(pendingReturns[msg.sender][_auctionId] != 0, "no bid to withdraw");
+    uint amount = pendingReturns[msg.sender][_auctionId];
     //bids[msg.sender] = 0;
     //what happens to the current winner variable if highest bidder withdraw his/her bid??
-    msg.sender.transfer(pendingReturns[msg.sender][_auctionId]);
+    if (amount > 0)
+    {
+      pendingReturns[msg.sender][_auctionId] = 0; //to avoid reentrancy attacks
+      msg.sender.transfer(amount);
+    }
     emit BidWithdrawn(msg.sender);
   }
 
