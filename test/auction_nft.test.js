@@ -85,11 +85,12 @@ contract('AuctionNft', function(accounts) {
       await instanceNft.createAuction(instanceERC721.address, 1, 0, {from: accounts[0]});
       await instanceNft.bidAuction(0, {from: accounts[1], value: web3.utils.toWei("2", "ether")});
       await instanceNft.bidAuction(0, {from: accounts[2], value: web3.utils.toWei("3", "ether")});
+      let balanceBefore = await web3.eth.getBalance(accounts[1]);
       await instanceNft.withdrawBid(0, {from: accounts[1]});
-      let endBalance = await web3.eth.getBalance(accounts[1]);
+      let balanceAfter = await web3.eth.getBalance(accounts[1]);
+      let substract = balanceAfter - balanceBefore;
       await catchRevert(instanceNft.withdrawBid(0, {from: accounts[2]}));
-      // let's try balance before and balance after method
-      assert.equal(endBalance.toString().slice(0, 3), 999);
+      assert.equal(substract.toString().slice(0, 3), 199); // should get about 1.99 ether when including tx fees
     })
 
     it("can throw an error when a bidder is trying to withdraw a bid twice or someone else bid", async() => {
@@ -155,7 +156,7 @@ contract('AuctionNft', function(accounts) {
     })
 
     it("verify an auction process end to end workflow (multiple bids, winner)", async() => {
-      
+
     })
 
 })
