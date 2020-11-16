@@ -196,12 +196,12 @@ contract AuctionNft is ERC721Holder{
   function getNumberOfAuctions()
   external
   view
-  returns(uint256 _nbOfFarms)
+  returns(uint256 _nbOfAuctions)
   {
     return nftAuctions.length;
   }
 
-  function getFarmInfo(uint256 _auctionId)
+  function getAuctionInfo(uint256 _auctionId)
   external
   view
   returns (address _tokenERC721, address _auctioneer, address _currentWinner, uint auctionId, AuctionStatus _auctionStatus, uint _highestBid, uint _startPrice, uint _tokenId, bool _auctionComplete)

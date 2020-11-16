@@ -59,7 +59,7 @@ contract('AuctionNft', function(accounts) {
       await instanceNft.createAuction(instanceERC721.address, 1, 0, {from: accounts[0]});
       await instanceNft.bidAuction(0, {from: accounts[1], value: web3.utils.toWei("2", "ether")});
 
-      const result = await instanceNft.getFarmInfo.call(0);
+      const result = await instanceNft.getAuctionInfo.call(0);
       assert.equal(result[0], instanceERC721.address);
       assert.equal(result[1], accounts[0]);
       assert.equal(result[2], accounts[1]);
@@ -121,9 +121,9 @@ contract('AuctionNft', function(accounts) {
       let auctionCount = await instanceNft.auctionCount.call();
       assert.equal(auctionCount, 3);
 
-      const result1 = await instanceNft.getFarmInfo.call(0);
-      const result2 = await instanceNft.getFarmInfo.call(1);
-      const result3 = await instanceNft.getFarmInfo.call(2);
+      const result1 = await instanceNft.getAuctionInfo.call(0);
+      const result2 = await instanceNft.getAuctionInfo.call(1);
+      const result3 = await instanceNft.getAuctionInfo.call(2);
       assert.equal(result1[7].toNumber(), 0);
       assert.equal(result2[7].toNumber(), 1);
       assert.equal(result3[7].toNumber(), 2);
@@ -137,7 +137,7 @@ contract('AuctionNft', function(accounts) {
       await catchRevert(instanceNft.endAuction(0, {from: accounts[1]}));
       await instanceNft.endAuction(0, {from: accounts[0]});
 
-      const result = await instanceNft.getFarmInfo.call(0);
+      const result = await instanceNft.getAuctionInfo.call(0);
       assert.equal(result[8], true);
     })
 
