@@ -59,6 +59,7 @@ contract AuctionNft is ERC721Holder{
   event AuctionEnded(uint _auctionId);
   event NftWithdrawn(uint _tokenId, address _nftWinner);
   event BidWithdrawn(address _bidder);
+  event BidClaimed(address _auctioneer);
 
   modifier onlyOwner() {
     require(owner == msg.sender, "you are not authorized for this");
@@ -183,6 +184,21 @@ contract AuctionNft is ERC721Holder{
       msg.sender.transfer(amount);
     }
     emit BidWithdrawn(msg.sender);
+  }
+
+  function withdrawHighestBid (uint256 _auctionId)
+  public
+  {
+    AuctionDetails storage details = auctions[_auctionId];
+    require(details.auctionComplete == true, "Auction must be active");
+    require(msg.sender == details.auctioneer, "you are not the auctioneer, nice try :)");
+    uint amount = details.highestBid;
+    if ( amount > 0)
+    {
+      details.highestBid = 0;
+      msg.sender.transfer(amount);
+    }
+    emit BidClaimed(msg.sender);
   }
 
   function setContractERC721(address _auctionERC721)
