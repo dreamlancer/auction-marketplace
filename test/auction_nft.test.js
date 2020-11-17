@@ -7,6 +7,7 @@ contract('AuctionNft', function(accounts) {
   const deployer = accounts[0];
   const account2 = accounts[1];
   const account3 = accounts[2];
+  const account4 = accounts[3];
 
   beforeEach("create an instance of AuctionNft", async function() {
       instanceERC721 = await AuctionERC721.new("Auction NFT", "ANFT", {from: accounts[0]});
@@ -156,7 +157,33 @@ contract('AuctionNft', function(accounts) {
     })
 
     it("verify an auction process end to end workflow (multiple bids, winner)", async() => {
+      // different actors will mint some nfts
+      // and create some auctions
+      // we will work in details around the second auction created
+      // that will involved different bidders
 
+      //we mint a few tokens
+      await instanceERC721.addNewToken(deployer, "", {from: accounts[0]});
+      await instanceERC721.addNewToken(account2, "", {from: accounts[1]});
+      await instanceERC721.addNewToken(account3, "", {from: accounts[2]});
+
+      //we transfer token number2 from account3 to account2
+      await instanceERC721.approve(account2, 2, {from: accounts[2]});
+      await instanceERC721.safeTransferFrom(account3, account2, 2, {from: accounts[2]});
+      let nftOwner = await instanceERC721.ownerOf(2);
+      let balanceNft = await instanceERC721.balanceOf(account2);
+      assert.equal(nftOwner, account2);
+      assert.equal(balanceNft, 2);
+
+      //account2 should be able to auction token2 while account3 shouldn't be able to anymore
+      await instanceERC721.approve(instanceNft.address, 2, {from: accounts[1]});
+      await catchRevert(instanceNft.createAuction(instanceERC721.address, 1, 2, {from: accounts[2]}));
+      await instanceNft.createAuction(instanceERC721.address, 1, 2, {from: accounts[1]});
+
+      //let's play out the auction scenario
+
+
+      //auction results
     })
 
 })
