@@ -86,6 +86,7 @@ contract('AuctionNft', function(accounts) {
       await instanceNft.createAuction(instanceERC721.address, 1, 0, {from: accounts[0]});
       await instanceNft.bidAuction(0, {from: accounts[1], value: web3.utils.toWei("2", "ether")});
       await instanceNft.bidAuction(0, {from: accounts[2], value: web3.utils.toWei("3", "ether")});
+      await instanceNft.endAuction(0, {from: accounts[0]});
       let balanceBefore = await web3.eth.getBalance(accounts[1]);
       await instanceNft.withdrawBid(0, {from: accounts[1]});
       let balanceAfter = await web3.eth.getBalance(accounts[1]);
@@ -101,6 +102,7 @@ contract('AuctionNft', function(accounts) {
       await instanceNft.bidAuction(0, {from: accounts[1], value: web3.utils.toWei("2", "ether")});
       await instanceNft.bidAuction(0, {from: accounts[2], value: web3.utils.toWei("3", "ether")});
       await instanceNft.bidAuction(0, {from: accounts[3], value: web3.utils.toWei("4", "ether")});
+      await instanceNft.endAuction(0, {from: accounts[0]});
       await instanceNft.withdrawBid(0, {from: accounts[1]});
       await catchRevert(instanceNft.withdrawBid(0, {from: accounts[1]}));
       await catchRevert(instanceNft.withdrawBid(1, {from: accounts[1]}));
@@ -177,13 +179,34 @@ contract('AuctionNft', function(accounts) {
 
       //account2 should be able to auction token2 while account3 shouldn't be able to anymore
       await instanceERC721.approve(instanceNft.address, 2, {from: accounts[1]});
-      await catchRevert(instanceNft.createAuction(instanceERC721.address, 1, 2, {from: accounts[2]}));
-      await instanceNft.createAuction(instanceERC721.address, 1, 2, {from: accounts[1]});
+      await catchRevert(instanceNft.createAuction(instanceERC721.address, web3.utils.toWei("1", "ether"), 2, {from: accounts[2]}));
+      await instanceNft.createAuction(instanceERC721.address, web3.utils.toWei("1", "ether"), 2, {from: accounts[1]});
 
       //let's play out the auction scenario
-
+      const startPrice = await instanceNft.getAuctionInfo.call(0);
+      assert.equal(web3.utils.fromWei(startPrice[5], 'ether'), 0);
+      assert.equal(web3.utils.fromWei(startPrice[6], 'ether'), 1);
+      await catchRevert(instanceNft.bidAuction(0, {from: accounts[2], value: web3.utils.toWei("0.5", "ether")}));
+      await instanceNft.bidAuction(0, {from: accounts[0], value: web3.utils.toWei("2", "ether")});
+      await catchRevert(instanceNft.bidAuction(0, {from: accounts[2], value: web3.utils.toWei("1.5", "ether")}));
+      await instanceNft.bidAuction(0, {from: accounts[2], value: web3.utils.toWei("4", "ether")});
+      await catchRevert(instanceNft.withdrawNft(0, {from: accounts[2]}));
+      await catchRevert(instanceNft.endAuction(0, {from: accounts[0]}));
+      await instanceNft.endAuction(0, {from: accounts[1]});
+      await catchRevert(instanceNft.bidAuction(0, {from: accounts[0], value: web3.utils.toWei("5", "ether")}));
 
       //auction results
+      //logically at this stage, accounts[2] has won and accounts[0] can withdraw her bid
+      await catchRevert(instanceNft.withdrawNft(0, {from: accounts[0]}));
+      await catchRevert(instanceNft.withdrawBid(0, {from: accounts[2]}));
+      await instanceNft.withdrawNft(0, {from: accounts[2]});
+      await instanceNft.withdrawBid(0, {from: accounts[0]});
+      await catchRevert(instanceERC721.safeTransferFrom(account3, account2, 2, {from: accounts[1]}));
+      let finalNftOwner = await instanceERC721.ownerOf(2);
+      let finalBalanceNft = await instanceERC721.balanceOf(account3);
+
+      assert.equal(finalNftOwner, account3);
+      assert.equal(finalBalanceNft, 1);
     })
 
 })

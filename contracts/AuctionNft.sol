@@ -55,7 +55,7 @@ contract AuctionNft is ERC721Holder{
   event NewAuctionERC721(address indexed _auctionERC721, uint _timestamp);
   event NewAuctionCreated(address _auctioneer, uint _auctionId);
   event HighestBidIncreased(address _currentWinner, uint _highestBid);
-  event NewAutionStarted(address _creator, uint _auctionId);
+  event NewAuctionStarted(address _creator, uint _auctionId, uint _startPrice, uint _highestBid);
   event AuctionEnded(uint _auctionId);
   event NftWithdrawn(uint _tokenId, address _nftWinner);
   event BidWithdrawn(address _bidder);
@@ -125,7 +125,7 @@ contract AuctionNft is ERC721Holder{
     IERC721(details.tokenERC721).safeTransferFrom(msg.sender, address(this), details.tokenId); //not possible to use require here as safeTransferFrom doesn't return anything
     //require(IERC721(details.tokenERC721).transferFrom(msg.sender, address(this), details.tokenId), "token transfer failed");
     details.auctionStatus = AuctionStatus.Bidding;
-    emit NewAutionStarted(msg.sender, _auctionId);
+    emit NewAuctionStarted(msg.sender, _auctionId, details.startPrice, details.highestBid);
   }
 
   function bidAuction (uint _auctionId)
@@ -134,6 +134,10 @@ contract AuctionNft is ERC721Holder{
   {
     AuctionDetails storage details = auctions[_auctionId];
     require(details.auctionStatus == AuctionStatus.Bidding, "Auction is not bidabble yet");
+    if(details.highestBid == 0)
+    {
+      require(msg.value > details.startPrice);
+    }
     require(msg.value > details.highestBid, "bid not high enough");
     if(details.highestBid != 0) {
       pendingReturns[details.currentWinner][_auctionId] += details.highestBid;
@@ -149,6 +153,7 @@ contract AuctionNft is ERC721Holder{
     AuctionDetails storage details = auctions[_auctionId];
     require(details.auctionStatus == AuctionStatus.Bidding, "Auction not biddable nor created yet");
     require(details.auctioneer == msg.sender);
+    details.auctionStatus = AuctionStatus.EndAuction;
     details.auctionComplete = true;
     emit AuctionEnded(_auctionId);
   }
@@ -158,6 +163,7 @@ contract AuctionNft is ERC721Holder{
   {
     AuctionDetails storage details = auctions[_auctionId];
     require(details.auctionComplete == true, "Auction must be completed");
+    require(details.auctionStatus == AuctionStatus.EndAuction, "Auction not ended yet");
     require(msg.sender == details.currentWinner, "you are not the winner, nice try :)");
     IERC721(details.tokenERC721).safeTransferFrom(address(this), msg.sender,  details.tokenId);
     pendingReturns[msg.sender][_auctionId] = 0;
@@ -176,6 +182,7 @@ contract AuctionNft is ERC721Holder{
     //AuctionDetails memory details = auctions[_auctionId];
     AuctionDetails storage details = auctions[_auctionId];
     require(details.auctionComplete == true, "Auction must be complete");
+    require(details.auctionStatus == AuctionStatus.EndAuction, "Auction not ended yet"); //this is what we can take out to allow early bid withdrawal
     require(pendingReturns[msg.sender][_auctionId] != 0, "no bid to withdraw");
     uint amount = pendingReturns[msg.sender][_auctionId];
     //bids[msg.sender] = 0;
