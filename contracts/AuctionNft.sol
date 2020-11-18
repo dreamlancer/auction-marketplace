@@ -157,7 +157,7 @@ contract AuctionNft is ERC721Holder{
   public
   {
     AuctionDetails storage details = auctions[_auctionId];
-    require(details.auctionComplete == true, "Auction must be active");
+    require(details.auctionComplete == true, "Auction must be completed");
     require(msg.sender == details.currentWinner, "you are not the winner, nice try :)");
     IERC721(details.tokenERC721).safeTransferFrom(address(this), msg.sender,  details.tokenId);
     pendingReturns[msg.sender][_auctionId] = 0;
@@ -174,6 +174,8 @@ contract AuctionNft is ERC721Holder{
   {
     //to implement pull over push pattern
     //AuctionDetails memory details = auctions[_auctionId];
+    AuctionDetails storage details = auctions[_auctionId];
+    require(details.auctionComplete == true, "Auction must be complete");
     require(pendingReturns[msg.sender][_auctionId] != 0, "no bid to withdraw");
     uint amount = pendingReturns[msg.sender][_auctionId];
     //bids[msg.sender] = 0;
