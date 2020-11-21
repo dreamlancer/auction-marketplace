@@ -1,7 +1,7 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
 import getBlockchain from './ethereum.js';
-//import Auction from './components/Auction.js';
+import Auction from './components/Auction.js';
 import Nav from './components/Nav.js';
 
 function App() {
@@ -33,7 +33,7 @@ function App() {
       <Nav />
       <div className='col-sm-12'>
         <h1>NFT Auction Market</h1>
-        
+        <Auction auctionERC721={auctionERC721} />
       </div>
     </div>
   );

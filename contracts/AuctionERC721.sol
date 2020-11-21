@@ -122,6 +122,7 @@ contract AuctionERC721 is ERC721, Ownable, IAuctionERC721 {
     for (uint i = 0; i < count; i++) {
       result[i] = tokenOfOwnerByIndex(msg.sender, i);
     }
+    return result;
   }
 
 }

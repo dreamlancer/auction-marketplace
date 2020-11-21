@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState} from "react";
 import { ethers } from 'ethers';
 import "./Nav.css";
 
@@ -12,6 +12,7 @@ class Nav extends React.Component {
      const signer = provider.getSigner();
      const signerAddress = await signer.getAddress();
      this.setState({ account: signerAddress });
+     //window.location.reload(false);
    }
 }
    componentDidMount() {
