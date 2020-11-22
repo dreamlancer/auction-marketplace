@@ -21,6 +21,7 @@ class Nav extends React.Component {
 
  render() {
    return (
+     
       <div>
        Your connected address: {this.state.account}
       </div>

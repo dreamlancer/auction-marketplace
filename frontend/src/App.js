@@ -21,7 +21,7 @@ function App() {
     return (
       <div className='container'>
         <div className='col-sm-12'>
-          <h1>NFT Auction Market</h1>
+          <h1>NFT Auction Marketplace</h1>
           <p>You need to install the latest version of Metamask</p>
         </div>
       </div>
@@ -32,7 +32,7 @@ function App() {
     <div className='container'>
       <Nav />
       <div className='col-sm-12'>
-        <h1>NFT Auction Market</h1>
+        <h1>NFT Auction Marketplace</h1>
         <Auction auctionERC721={auctionERC721} />
       </div>
     </div>

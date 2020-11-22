@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { ethers } from 'ethers';
-
+import { ethers, Contract } from 'ethers';
+import "./Auction.css";
+import AuctionERC721 from '../contracts/AuctionERC721.json';
 
 function Auction( {auctionERC721}) {
 
   const [address, sendToken] = useState(0);
   const [uri, setUri] = useState(0);
   //const [nftall, setAllNft] = useState([]);
-  const [nft, setGet] = useState([]);
+  const [nfts, setGet] = useState(["your list of NFTs is..."]);
 
   const mintNft = async (t) => {
    t.preventDefault();
@@ -21,16 +22,20 @@ function Auction( {auctionERC721}) {
  const getNft = async (t) => {
     t.preventDefault();
     const post = await auctionERC721.getTokenCreators();
-    setGet(parseInt(post));
+    console.log(post);
+    setGet(post);
+    //setGet(nfts => [...nfts, post]);
+    console.log(nfts);
     //setAllNft(nftall.concat(post));
   };
 
  return(
+   <div className="main">
    <div className="cargo">
      <div className="case">
        <form className="form" onSubmit={mintNft}>
              <label>
-               Set your address:
+               Set the receiver:
                <input
                  className="input"
                  type="text"
@@ -48,16 +53,23 @@ function Auction( {auctionERC721}) {
                />
              </label>
              <button className="button" type="submit" value="Confirm">
-               Mint token
+               Mint and send NFT token
              </button>
        </form>
        <br />
            <button className="button" onClick={getNft} type="button">
              Retrieve
            </button>
-           <div className="result">{nft}</div>
-    </div>
+           <div className="result">
+            {nfts.map(item => (
+              <li
+                key={item.id}>{item.value}
+              </li>
+            ))}
+           </div>
       </div>
+    </div>
+    </div>
   );
 }
 
