@@ -1,72 +1,46 @@
 import React, { useState } from 'react';
 import { ethers, Contract } from 'ethers';
 import "./Auction.css";
+import AuctionNft from '../contracts/AuctionNft.json';
 import AuctionERC721 from '../contracts/AuctionERC721.json';
 
-function Auction( {auctionERC721}) {
+function Auction({auctionNft, auctionERC721}) {
+  const[price, setPrice] = useState(0);
+  const[tokenid, setTokenId] = useState(0);
 
-  const [address, sendToken] = useState(0);
-  const [uri, setUri] = useState(0);
-  //const [nftall, setAllNft] = useState([]);
-  const [nfts, setGet] = useState(["your list of NFTs is..."]);
+  const createNftAuction = async (t) => {
+     t.preventDefault();
+     const approved = await auctionERC721.approve(auctionNft.address, tokenid)
+     const post = await auctionNft.createAuction(auctionERC721.address, price, tokenid);
+};
 
-  const mintNft = async (t) => {
-   t.preventDefault();
-   const accounts = await window.ethereum.enable();
-   const account = accounts[0];
-   const gas = await auctionERC721.estimateGas.addNewToken(address, uri);
-   const post = await auctionERC721.addNewToken(address, uri);
-
- };
-
- const getNft = async (t) => {
-    t.preventDefault();
-    const post = await auctionERC721.getTokenCreators();
-    console.log(post);
-    setGet(post);
-    //setGet(nfts => [...nfts, post]);
-    console.log(nfts);
-    //setAllNft(nftall.concat(post));
-  };
-
- return(
-   <div className="main">
-   <div className="cargo">
-     <div className="case">
-       <form className="form" onSubmit={mintNft}>
-             <label>
-               Set the receiver:
-               <input
-                 className="input"
-                 type="text"
-                 name="name"
-                 onChange={(t) => sendToken(t.target.value)}
-               />
-             </label>
-             <label>
-               Set your URI:
-               <input
-                 className="input"
-                 type="text"
-                 name="name"
-                 onChange={(t) => setUri(t.target.value)}
-               />
-             </label>
-             <button className="button" type="submit" value="Confirm">
-               Mint and send NFT token
-             </button>
-       </form>
-       <br />
-           <button className="button" onClick={getNft} type="button">
-             Retrieve
-           </button>
-           <div className="result">
-            {nfts.map(item => (
-              <li
-                key={item.id}>{item.value}
-              </li>
-            ))}
-           </div>
+  return(
+    <div className="main">
+    <div className="cargo">
+      <div className="case">
+      <form className="form" onSubmit={createNftAuction}>
+            <label>
+              Set the price:
+              <input
+                className="input"
+                type="text"
+                name="name"
+                onChange={(t) => setPrice(t.target.value)}
+              />
+            </label>
+            <label>
+              Token Id to auction:
+              <input
+                className="input"
+                type="text"
+                name="name"
+                onChange={(t) => setTokenId(t.target.value)}
+              />
+            </label>
+            <button className="button" type="submit" value="Confirm">
+              Create an auction
+            </button>
+      </form>
       </div>
     </div>
     </div>

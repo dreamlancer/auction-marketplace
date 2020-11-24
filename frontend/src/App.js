@@ -1,8 +1,9 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
 import getBlockchain from './ethereum.js';
-import Auction from './components/Auction.js';
+import Minter from './components/Minter.js';
 import Nav from './components/Nav.js';
+import Auction from './components/Auction.js'
 
 function App() {
   const [auctionERC721, setAuctionERC721] = useState(undefined);
@@ -30,10 +31,11 @@ function App() {
 
   return (
     <div className='container'>
-      <Nav />
+      <Nav auctionERC721={auctionERC721} />
       <div className='col-sm-12'>
         <h1>NFT Auction Marketplace</h1>
-        <Auction auctionERC721={auctionERC721} />
+        <Minter auctionERC721={auctionERC721} />
+        <Auction auctionNft={auctionNft, auctionERC721} />
       </div>
     </div>
   );

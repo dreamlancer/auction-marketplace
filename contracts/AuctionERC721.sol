@@ -125,4 +125,13 @@ contract AuctionERC721 is ERC721, Ownable, IAuctionERC721 {
     return result;
   }
 
+  function getBalance()
+  external
+  view
+  returns (uint256)
+  {
+    uint256 balance = balanceOf(msg.sender);
+    return balance;
+  }
+
 }
