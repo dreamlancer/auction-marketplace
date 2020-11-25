@@ -45,7 +45,6 @@ contract AuctionNft is ERC721Holder{
     bool auctionComplete;
     //address[] bidders;
     //uint minimumIncrement;
-    //variable for auction duration as well
   }
 
   AuctionDetails[] public nftAuctions;
