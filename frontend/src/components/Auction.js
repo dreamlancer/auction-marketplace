@@ -9,7 +9,6 @@ function Auction( {auctionNft} ) {
   const [visibleAuctions, setVisibleAuctions] = useState([]);
   const [bid, setBid] = useState(0);
 
-
   //useEffect(() => {
 
   const getAuction = async (t) => {
@@ -40,6 +39,34 @@ function Auction( {auctionNft} ) {
      const bidValue = await auctionNft.bidAuction(auction, {from: account, value: ethers.utils.parseEther(bid)});
     }
   };
+
+  const endAuction = async (t) => {
+    if (auctionNft) {
+     t.preventDefault();
+     const accounts = await window.ethereum.enable();
+     const account = accounts[0];
+     const end = await auctionNft.endAuction(auction);
+    }
+  };
+
+  const claimNft = async (t) => {
+    if (auctionNft) {
+     t.preventDefault();
+     const accounts = await window.ethereum.enable();
+     const account = accounts[0];
+     const claimN = await auctionNft.endAuction(auction);
+    }
+  };
+
+  const claimBid = async (t) => {
+    if (auctionNft) {
+     t.preventDefault();
+     const accounts = await window.ethereum.enable();
+     const account = accounts[0];
+     const claim = await auctionNft.endAuction(auction);
+    }
+  };
+
 
 return(
   <div className="main">
@@ -83,7 +110,51 @@ return(
                />
              </label>
         </form>
-      </div>
+        <form className="form" onSubmit={endAuction}>
+              <button className="button" type="submit" value="Confirm">
+                End an auction
+              </button>
+              <label>
+                Set the auction number:
+                <input
+                  className="input"
+                  type="text"
+                  name="name"
+                  onChange={(t) => setauction(t.target.value)}
+                />
+              </label>
+          </form>
+
+          <form className="form" onSubmit={claimNft}>
+                <button className="button" type="submit" value="Confirm">
+                  Claim Nft
+                </button>
+                <label>
+                  Set the auction number:
+                  <input
+                    className="input"
+                    type="text"
+                    name="name"
+                    onChange={(t) => setauction(t.target.value)}
+                  />
+                </label>
+            </form>
+
+            <form className="form" onSubmit={claimBid}>
+                  <button className="button" type="submit" value="Confirm">
+                    Claim your bid
+                  </button>
+                  <label>
+                    Set the auction number:
+                    <input
+                      className="input"
+                      type="text"
+                      name="name"
+                      onChange={(t) => setauction(t.target.value)}
+                    />
+                  </label>
+              </form>
+    </div>
  </div>
  </div>
 );

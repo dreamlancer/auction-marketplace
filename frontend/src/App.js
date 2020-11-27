@@ -11,6 +11,7 @@ function App() {
   const [auctionNft, setAuctionNft] = useState(undefined);
   const[price, setPrice] = useState(0);
   const[tokenid, setTokenId] = useState(0);
+  const [auctionCount, setAuctionCount] = useState(0);
 
   useEffect(() => {
     const init = async () => {
@@ -28,8 +29,17 @@ function App() {
      const signer = provider.getSigner();
 
      const approved = await auctionERC721.approve(auctionNft.address, tokenid)
-     const post = await auctionNft.createAuction(auctionERC721.address, price, tokenid);
+     const post = await auctionNft.createAuction(auctionERC721.address, ethers.utils.parseEther(price), tokenid);
 };
+
+  const getAuctionCount = async (t) => {
+    if (auctionNft) {
+      t.preventDefault();
+      const numberOfAuctions = await auctionNft.getNumberOfAuctions();
+      setAuctionCount(parseInt(numberOfAuctions));
+    }
+  };
+
 
   if(typeof window.ethereum === 'undefined') {
     return (
@@ -72,6 +82,15 @@ function App() {
                 Create an auction
               </button>
         </form>
+        <br>
+        </br>
+        <button className="button" onClick={getAuctionCount} type="button">
+          Number of auctions created so far
+        </button>
+        <div className="result">
+         {auctionCount}
+        </div>
+
         <Auction auctionNft={auctionNft} />
       </div>
     </div>
