@@ -169,7 +169,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [],
@@ -182,7 +183,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -241,7 +243,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -300,7 +303,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -347,7 +351,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -389,7 +394,8 @@
       "name": "bidAuction",
       "outputs": [],
       "stateMutability": "payable",
-      "type": "function"
+      "type": "function",
+      "payable": true
     },
     {
       "inputs": [
@@ -467,7 +473,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     },
     {
       "inputs": [
@@ -526,7 +533,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     }
   ],
   "metadata": "{\"compiler\":{\"version\":\"0.6.12+commit.27d51765\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_auctionERC721\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_auctionId\",\"type\":\"uint256\"}],\"name\":\"AuctionEnded\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"_auctioneer\",\"type\":\"address\"}],\"name\":\"BidClaimed\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"_bidder\",\"type\":\"address\"}],\"name\":\"BidWithdrawn\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"_currentWinner\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_highestBid\",\"type\":\"uint256\"}],\"name\":\"HighestBidIncreased\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"_auctioneer\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_auctionId\",\"type\":\"uint256\"}],\"name\":\"NewAuctionCreated\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"_auctionERC721\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_timestamp\",\"type\":\"uint256\"}],\"name\":\"NewAuctionERC721\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"address\",\"name\":\"_creator\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_auctionId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_startPrice\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_highestBid\",\"type\":\"uint256\"}],\"name\":\"NewAuctionStarted\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"_tokenId\",\"type\":\"uint256\"},{\"indexed\":false,\"internalType\":\"address\",\"name\":\"_nftWinner\",\"type\":\"address\"}],\"name\":\"NftWithdrawn\",\"type\":\"event\"},{\"inputs\":[],\"name\":\"auctionCount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"auctionERC721\",\"outputs\":[{\"internalType\":\"contract IAuctionERC721\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"auctions\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"tokenERC721\",\"type\":\"address\"},{\"internalType\":\"address payable\",\"name\":\"auctioneer\",\"type\":\"address\"},{\"internalType\":\"address payable\",\"name\":\"currentWinner\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"auctionId\",\"type\":\"uint256\"},{\"internalType\":\"enum AuctionNft.AuctionStatus\",\"name\":\"auctionStatus\",\"type\":\"uint8\"},{\"internalType\":\"uint256\",\"name\":\"highestBid\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"startPrice\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"tokenId\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"auctionComplete\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_auctionId\",\"type\":\"uint256\"}],\"name\":\"bidAuction\",\"outputs\":[],\"stateMutability\":\"payable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_tokenERC721\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_startPrice\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_tokenId\",\"type\":\"uint256\"}],\"name\":\"createAuction\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"_accountId\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_auctionId\",\"type\":\"uint256\"}],\"name\":\"endAuction\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_auctionId\",\"type\":\"uint256\"}],\"name\":\"getAuctionInfo\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"_tokenERC721\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_auctioneer\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_currentWinner\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"auctionId\",\"type\":\"uint256\"},{\"internalType\":\"enum AuctionNft.AuctionStatus\",\"name\":\"_auctionStatus\",\"type\":\"uint8\"},{\"internalType\":\"uint256\",\"name\":\"_highestBid\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_startPrice\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"_tokenId\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"_auctionComplete\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getNumberOfAuctions\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"_nbOfAuctions\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"nftAuctions\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"tokenERC721\",\"type\":\"address\"},{\"internalType\":\"address payable\",\"name\":\"auctioneer\",\"type\":\"address\"},{\"internalType\":\"address payable\",\"name\":\"currentWinner\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"auctionId\",\"type\":\"uint256\"},{\"internalType\":\"enum AuctionNft.AuctionStatus\",\"name\":\"auctionStatus\",\"type\":\"uint8\"},{\"internalType\":\"uint256\",\"name\":\"highestBid\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"startPrice\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"tokenId\",\"type\":\"uint256\"},{\"internalType\":\"bool\",\"name\":\"auctionComplete\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"},{\"internalType\":\"bytes\",\"name\":\"\",\"type\":\"bytes\"}],\"name\":\"onERC721Received\",\"outputs\":[{\"internalType\":\"bytes4\",\"name\":\"\",\"type\":\"bytes4\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_auctionERC721\",\"type\":\"address\"}],\"name\":\"setContractERC721\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_auctionId\",\"type\":\"uint256\"}],\"name\":\"withdrawBid\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_auctionId\",\"type\":\"uint256\"}],\"name\":\"withdrawHighestBid\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_auctionId\",\"type\":\"uint256\"}],\"name\":\"withdrawNft\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"details\":\"Our contract needs to support safeTransfers\",\"kind\":\"dev\",\"methods\":{\"bidAuction(uint256)\":{\"details\":\"External function to bid on a created auctionPayable as it receives ether\",\"params\":{\"_auctionId\":\"as parameter\"}},\"createAuction(address,uint256,uint256)\":{\"details\":\"Function to create an auction\",\"params\":{\"_startPrice\":\"start price of the auction\",\"_tokenERC721\":\"which is the address of the deployed contract used to create our NFT\",\"_tokenId\":\"tokenid of the NFT to auction\"},\"returns\":{\"_accountId\":\"updated\"}},\"endAuction(uint256)\":{\"details\":\"Function for an auctioneer to end an auction\",\"params\":{\"_auctionId\":\"as parameter\"}},\"getAuctionInfo(uint256)\":{\"details\":\"External function to retrieve all the info of a specific auction\",\"params\":{\"_auctionId\":\"as parameter\"},\"returns\":{\"_tokenERC721\":\"_tokenERC721\"}},\"getNumberOfAuctions()\":{\"details\":\"External function to retrieve the current number of auctions already created\",\"returns\":{\"_nbOfAuctions\":\"a number of auctions from the array\"}},\"onERC721Received(address,address,uint256,bytes)\":{\"details\":\"See {IERC721Receiver-onERC721Received}. Always returns `IERC721Receiver.onERC721Received.selector`.\"},\"setContractERC721(address)\":{\"details\":\"Function called upon deployment of this contract and used to set a state variable to the deployed address of the ERC721 contract deployed in the deployment scriptcan only be called by original deployer\",\"params\":{\"_auctionERC721\":\"address of ERC721 contract deployed as parameter\"}},\"withdrawBid(uint256)\":{\"details\":\"Function to withdraw a bid once the auction is over\",\"params\":{\"_auctionId\":\"as parameter\"}},\"withdrawHighestBid(uint256)\":{\"details\":\"Function for the auctioneer to withdraw the highest bid once the auction is over\",\"params\":{\"_auctionId\":\"as parameter\"}},\"withdrawNft(uint256)\":{\"details\":\"Function to claim an NFT for a winner to be called once the auction is over\",\"params\":{\"_auctionId\":\"as parameter\"}}},\"title\":\"Inheritance\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"/home/thibault/Documents/Ethereum/ConsensysBootcamp/FinalProjectThibault/contracts/AuctionNft.sol\":\"AuctionNft\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"/home/thibault/Documents/Ethereum/ConsensysBootcamp/FinalProjectThibault/contracts/AuctionNft.sol\":{\"keccak256\":\"0x67e217e6c572569d6544fdeff8e63b65eef6ff447e44b4253062f830274f3288\",\"urls\":[\"bzz-raw://e0bf964572a193aa5254d06b567f23268764c5789a1f2d881bc70c67b9db4074\",\"dweb:/ipfs/QmWpJMeM7SVZcpp1ZxHkBZYD8jX9KZff5FArJGRUkeViC5\"]},\"@openzeppelin/contracts/GSN/Context.sol\":{\"keccak256\":\"0xdb26cbf4d028490f49831a7865c2fe1b28db44b535ca8d343785a3b768aae183\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://840b14ce0315c47d49ba328f1f9fa7654ded1c9e1559e6c5e777a7b2dc28bf0a\",\"dweb:/ipfs/QmTLLabn4wcfGro9LEmUXUN2nwKqZSotXMvjDCLXEnLtZP\"]},\"@openzeppelin/contracts/introspection/IERC165.sol\":{\"keccak256\":\"0xfa152b6e88a1dc50780e8f1580426dc23ad2e1e2c2f086a088adf206a202f453\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://5127b264994adab88fae419b1c493efc5acd07134c19ee5c0397e50018291ebf\",\"dweb:/ipfs/QmWwJZVhvdmvUCdimbb6R2Jiu59zjPqm6XTMchM6LaEHAp\"]},\"@openzeppelin/contracts/math/SafeMath.sol\":{\"keccak256\":\"0x9a9cf02622cd7a64261b10534fc3260449da25c98c9e96d1b4ae8110a20e5806\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://2df142592d1dc267d9549049ee3317fa190d2f87eaa565f86ab05ec83f7ab8f5\",\"dweb:/ipfs/QmSkJtcfWo7c42KnL5hho6GFxK6HRNV91XABx1P7xDtfLV\"]},\"@openzeppelin/contracts/token/ERC721/ERC721Holder.sol\":{\"keccak256\":\"0x34c4a34a6694edaa1c5c92202e5e585f6f49c6103714b7335bce4e54baf46ab2\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://97d1c5dff43fac915b2af4beb58c49018250b82b0dd383931de6b675cfc1978d\",\"dweb:/ipfs/QmY98qaJPRpkGQJaS5GMszyo4a9denG76fj1Ea9RurV4oc\"]},\"@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol\":{\"keccak256\":\"0x321ee37ef4925020aa818a03ec7fe48e057561f65ab009a84f6c20c86026ade7\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://01f9d74a17a56024984251b97e428e24c9d3abffbae5bd290f0ec263c82e9694\",\"dweb:/ipfs/QmRryCuuXu2ukrDmatB8TqdEhPLiK6NBRt41RiPUaX1qKy\"]},\"contracts/interfaces/IAuctionERC721.sol\":{\"keccak256\":\"0xe9fe96bdf76e2dbe0ecd9e2d3239aeaf913a26311f0539e7a78e3e045b897005\",\"urls\":[\"bzz-raw://deb2bea79755694dc32d994e3f8637d1bb0ab689f4683d4aeab24e644dafd9e4\",\"dweb:/ipfs/QmaUr68JSSxAanMYvYXwbFqcdQaDi5T58tTCoeggCBCg89\"]},\"node_modules/@openzeppelin/contracts/access/Ownable.sol\":{\"keccak256\":\"0xffda9d05e4d6d3724490eca382620f78df7fb86bd89bbc623da9958e0b3a442b\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://e7b0470f1db01b6380b0f51998d6b1dd84c8d2fcbe02e279005a9cf8a39a89cf\",\"dweb:/ipfs/QmcAaZDKHoUkzLJufkvr7mHKcVXfBwASfyxT1HDuCksjFm\"]},\"node_modules/@openzeppelin/contracts/token/ERC721/IERC721.sol\":{\"keccak256\":\"0x9f307ac66566429a913578b66a5bda8919e1c55d4787dba4ab60ecc91339bde0\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://7748b992ca2c285e6cd0c6f1c84358e9adbf6b795abef8b977daf595988f6891\",\"dweb:/ipfs/Qmet3VktANmBSaeLkdBfWa8BacUeGvqwasBpjqGVTs88Ai\"]}},\"version\":1}",
@@ -19053,10 +19061,164 @@
       "links": {},
       "address": "0xD323d6f6dD1d6C953F9Da21efB76381C60519048",
       "transactionHash": "0xbffdd67d995b355361374182427e709dfe8acccc5da52a0cce85e2f6f6f2c2bb"
+    },
+    "1606569418036": {
+      "events": {
+        "0x45806e512b1f4f10e33e8b3cb64d1d11d998d8c554a95e0841fc1c701278bd5d": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_auctionId",
+              "type": "uint256"
+            }
+          ],
+          "name": "AuctionEnded",
+          "type": "event"
+        },
+        "0x78f1d0b64e72ddc09a2e9e6d495c4e97c893c89ebabaf824c6f08ce9f94ceaf2": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "_auctioneer",
+              "type": "address"
+            }
+          ],
+          "name": "BidClaimed",
+          "type": "event"
+        },
+        "0xe4b292cd5a573e1d0cf3c41a161b96cd6639bf4523291e9efbd663177c99d744": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "_bidder",
+              "type": "address"
+            }
+          ],
+          "name": "BidWithdrawn",
+          "type": "event"
+        },
+        "0xf4757a49b326036464bec6fe419a4ae38c8a02ce3e68bf0809674f6aab8ad300": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "_currentWinner",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_highestBid",
+              "type": "uint256"
+            }
+          ],
+          "name": "HighestBidIncreased",
+          "type": "event"
+        },
+        "0x6761564db36e731a0f30bd12df9cbb4d1bf73acc82096f20663bf7dd993fdacb": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "_auctioneer",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_auctionId",
+              "type": "uint256"
+            }
+          ],
+          "name": "NewAuctionCreated",
+          "type": "event"
+        },
+        "0xc3ed467480c03780e2ec27d1db0b8101f06a31fc4b8dca9290c5511ec3b6df6b": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "_auctionERC721",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_timestamp",
+              "type": "uint256"
+            }
+          ],
+          "name": "NewAuctionERC721",
+          "type": "event"
+        },
+        "0x9b1d51aaa80e9b8f56dc82526e9acc4610f1a9d7ae8e515a96298aeeba9d611b": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "_creator",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_auctionId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_startPrice",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_highestBid",
+              "type": "uint256"
+            }
+          ],
+          "name": "NewAuctionStarted",
+          "type": "event"
+        },
+        "0x86a3374ba35fb0c6f52fad391c301c68cb35fc2dfca56d552513608af2dc3d6c": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_tokenId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "_nftWinner",
+              "type": "address"
+            }
+          ],
+          "name": "NftWithdrawn",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x45053840e4446A9Acef513308D3ae17BA05Bc7C0",
+      "transactionHash": "0x0f35cdd0523040ebb9d655f71fd2e089fa06f38ae49d8b21db2a2c56b558473e"
     }
   },
   "schemaVersion": "3.3.1",
-  "updatedAt": "2020-11-28T13:15:22.527Z",
+  "updatedAt": "2020-11-28T13:17:34.864Z",
+  "networkType": "ethereum",
   "devdoc": {
     "details": "Our contract needs to support safeTransfers",
     "kind": "dev",
