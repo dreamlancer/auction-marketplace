@@ -76,6 +76,8 @@ Open Metamask, log out of any current account and restore a new account with the
 
 Once logged into Metamask, choose "Custom RPC" network and "http://127.0.0.1:8545" as New RPC URL. Click Save and make sure you are using the network defined just now.
 
+Refresh the page once.
+
 You should now be able to interact with the application. At least 3 accounts should be created to fully interact with the DApp.
 
 #### Testing
@@ -99,9 +101,9 @@ All tests should be passed!
 
 - [x] Have a smart contract(s) commented according to the specs which:
 
-    - [] Have a circuit breaker design pattern and at least one other design pattern in Module 10 Lesson 1
+    - [x] Have a circuit breaker design pattern and at least one other design pattern in Module 10 Lesson 1
 
-    - [] Have security features to protect against at least two attack vectors outlined in Module 9 Lesson 3
+    - [x] Have security features to protect against at least two attack vectors outlined in Module 9 Lesson 3
 
     - [x] Use a library (SafeMath.sol, etc) or extend another contract
 
@@ -126,9 +128,9 @@ All tests should be passed!
 
 - [x] Have a README doc describing the overview of your project, pointing out directory structure and how to build and run your project locally AND
 
-- [] A document called design_pattern_decisions.md explaining which design patterns you used AND
+- [x] A document called design_pattern_decisions.md explaining which design patterns you used AND
 
-- [] A document called avoiding_common_attacks.md explaining security steps you took what measures you took to ensure your contracts are not susceptible to common attacks AND
+- [x] A document called avoiding_common_attacks.md explaining security steps you took what measures you took to ensure your contracts are not susceptible to common attacks AND
 
 - [] A document called deployed_addresses.txt that describes where your contracts live (testnet AND address).
 
