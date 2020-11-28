@@ -256,7 +256,7 @@ contract AuctionNft is ERC721Holder{
 
   /**
      * @dev External function to retrieve the current number of auctions already created
-     * @return a number of auctions from the array
+     * @return _nbOfAuctions a number of auctions from the array
      */
   function getNumberOfAuctions()
   external
@@ -269,7 +269,7 @@ contract AuctionNft is ERC721Holder{
   /**
      * @dev External function to retrieve all the info of a specific auction
      * @param _auctionId as parameter
-     * @return all the attributes and characteristics of an auction
+     * @return _tokenERC721
      */
   function getAuctionInfo(uint256 _auctionId)
   external
