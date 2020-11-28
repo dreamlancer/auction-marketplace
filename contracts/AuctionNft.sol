@@ -181,7 +181,7 @@ contract AuctionNft is ERC721Holder{
     //AuctionDetails memory details = auctions[_auctionId];
     AuctionDetails storage details = auctions[_auctionId];
     require(details.auctionComplete == true, "Auction must be complete");
-    require(details.auctionStatus == AuctionStatus.EndAuction, "Auction not ended yet"); //this is what we can take out to allow early bid withdrawal
+    //require(details.auctionStatus == AuctionStatus.EndAuction, "Auction not ended yet"); //this is what we can take out to allow early bid withdrawal
     require(pendingReturns[msg.sender][_auctionId] != 0, "no bid to withdraw");
     uint amount = pendingReturns[msg.sender][_auctionId];
     //bids[msg.sender] = 0;

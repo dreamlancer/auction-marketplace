@@ -12,6 +12,7 @@ function App() {
   const[price, setPrice] = useState(0);
   const[tokenid, setTokenId] = useState(0);
   const [auctionCount, setAuctionCount] = useState(0);
+  const [loadingAuction, setLoadingAuction] = useState(false);
 
   useEffect(() => {
     const init = async () => {
@@ -23,13 +24,19 @@ function App() {
   }, []);
 
   const createNftAuction = async (t) => {
+    try {
      t.preventDefault();
+     setLoadingAuction(false);
      await window.ethereum.enable();
      const provider = new ethers.providers.Web3Provider(window.ethereum);
      const signer = provider.getSigner();
 
-     const approved = await auctionERC721.approve(auctionNft.address, tokenid)
+     const approved = await auctionERC721.approve(auctionNft.address, tokenid);
      const post = await auctionNft.createAuction(auctionERC721.address, ethers.utils.parseEther(price), tokenid);
+    }
+    catch {
+      setLoadingAuction(true);
+    }
 };
 
   const getAuctionCount = async (t) => {
@@ -59,6 +66,9 @@ function App() {
         <h1>NFT Auction Marketplace</h1>
         <Minter auctionERC721={auctionERC721} />
 
+
+        <div>
+        {!loadingAuction && (
         <form className="form" onSubmit={createNftAuction}>
               <label>
                 Set the price:
@@ -82,6 +92,11 @@ function App() {
                 Create an auction
               </button>
         </form>
+      )}
+      {loadingAuction && <ErrorComponentAuction></ErrorComponentAuction>}
+        </div>
+
+
         <br>
         </br>
         <button className="button" onClick={getAuctionCount} type="button">
@@ -91,10 +106,14 @@ function App() {
          {auctionCount}
         </div>
 
-        <Auction auctionNft={auctionNft} />
+        <Auction auctionNft={auctionNft} auctionERC721={auctionERC721} />
       </div>
     </div>
   );
+}
+
+function ErrorComponentAuction() {
+  return <h1> You do not own the NFT! </h1>
 }
 
 export default App;

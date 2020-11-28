@@ -34,7 +34,10 @@ contract AuctionERC721 is ERC721, Ownable, IAuctionERC721 {
 
      }
 
-  //
+  /**
+    * @dev Checks that the tokenId is owned by the sender.
+    * @param _tokenId uint256 ID of the token.
+    */
   modifier onlyTokenOwner(uint256 _tokenId) {
         address owner = ownerOf(_tokenId);
         require(msg.sender == owner, "must be the owner of the token!");

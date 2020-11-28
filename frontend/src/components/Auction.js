@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { ethers, Contract } from 'ethers';
 import AuctionNft from '../contracts/AuctionNft.json';
+import AuctionERC721 from '../contracts/AuctionERC721.json';
 
 
-function Auction( {auctionNft} ) {
+function Auction( {auctionNft, auctionERC721} ) {
 
   const [auction, setauction] = useState(0);
   const [visibleAuctions, setVisibleAuctions] = useState([]);
   const [bid, setBid] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [loadingBid, setLoadingBid] = useState(false);
+  //const [error, setError] = useState({});
 
   //useEffect(() => {
 
@@ -33,11 +37,16 @@ function Auction( {auctionNft} ) {
 //}, []);
   const bidAuction = async (t) => {
     if (auctionNft) {
-     t.preventDefault();
-     const accounts = await window.ethereum.enable();
-     const account = accounts[0];
-     const bidValue = await auctionNft.bidAuction(auction, {from: account, value: ethers.utils.parseEther(bid)});
-    }
+      try {
+         t.preventDefault();
+         setLoadingBid(false);
+         const accounts = await window.ethereum.enable();
+         const account = accounts[0];
+         const bidValue = await auctionNft.bidAuction(auction, {from: account, value: ethers.utils.parseEther(bid)});
+       } catch {
+         setLoadingBid(true);
+       }
+     }
   };
 
   const endAuction = async (t) => {
@@ -51,11 +60,19 @@ function Auction( {auctionNft} ) {
 
   const claimNft = async (t) => {
     if (auctionNft) {
-     t.preventDefault();
-     const accounts = await window.ethereum.enable();
-     const account = accounts[0];
-     const claimN = await auctionNft.endAuction(auction);
-    }
+      try {
+         t.preventDefault();
+         setLoading(false);
+         //setError({});
+         const accounts = await window.ethereum.enable();
+         const account = accounts[0];
+         //const approved = await auctionERC721.approve(account, 10);
+         const claimN = await auctionNft.endAuction(auction);
+       } catch {
+        //setError(err);
+        setLoading(true);
+     }
+   }
   };
 
   const claimBid = async (t) => {
@@ -87,6 +104,9 @@ return(
        </br>
        <br>
        </br>
+
+       <div>
+       {!loadingBid && (
        <form className="form" onSubmit={bidAuction}>
              <button className="button" type="submit" value="Confirm">
                Bid an auction
@@ -110,6 +130,11 @@ return(
                />
              </label>
         </form>
+        )}
+        {loadingBid && <ErrorComponentBid></ErrorComponentBid>}
+        </div>
+
+
         <form className="form" onSubmit={endAuction}>
               <button className="button" type="submit" value="Confirm">
                 End an auction
@@ -125,6 +150,8 @@ return(
               </label>
           </form>
 
+          <div>
+          {!loading && (
           <form className="form" onSubmit={claimNft}>
                 <button className="button" type="submit" value="Confirm">
                   Claim Nft
@@ -139,6 +166,10 @@ return(
                   />
                 </label>
             </form>
+            )}
+
+            {loading && <ErrorComponent></ErrorComponent>}
+            </div>
 
             <form className="form" onSubmit={claimBid}>
                   <button className="button" type="submit" value="Confirm">
@@ -159,6 +190,14 @@ return(
  </div>
 );
 
+}
+
+function ErrorComponentBid() {
+  return <h1> Set higher Bid! </h1>
+}
+
+function ErrorComponent() {
+  return <h1> NFT cannot be claimed </h1>
 }
 
 export default Auction;
