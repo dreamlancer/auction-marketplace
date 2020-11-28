@@ -54,7 +54,7 @@ git clone https://github.com/thibault23/auction-marketplace
 
 #### DApp interaction
 
-After cloning this repository, open 2 terminal windows and `cd` into the top directory of this project in both
+After cloning this repository, open 2 terminal windows and `cd` into the top directory of this project in both.
 In the 1st window, run `ganache-cli` to start your local blockchain.
 
 In the second window, run:
@@ -87,7 +87,7 @@ To do so, you can open another command window and navigate to the top directory 
 There you can run:
 
 ```console
-truffle compile
+truffle test
 ```
 
 All tests should be passed!
