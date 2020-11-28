@@ -189,9 +189,9 @@ contract AuctionNft is ERC721Holder{
     require(details.auctionComplete == true, "Auction must be completed");
     require(details.auctionStatus == AuctionStatus.EndAuction, "Auction not ended yet");
     require(msg.sender == details.currentWinner, "you are not the winner, nice try :)");
+    details.auctionStatus == AuctionStatus.AuctionClaimed; //reentrancy
     IERC721(details.tokenERC721).safeTransferFrom(address(this), msg.sender,  details.tokenId);
-    pendingReturns[msg.sender][_auctionId] = 0;
-    details.auctionStatus == AuctionStatus.AuctionClaimed;
+    //pendingReturns[msg.sender][_auctionId] = 0; //commenting so as to allow earlier bids to be withdrawn by winner
     emit NftWithdrawn(details.tokenId, details.currentWinner);
     /* below might not be needed if we never push current winner bid into the pendingReturns mapping */
     //require(pendingReturns[msg.sender] != 0, "no bids placed");
@@ -236,7 +236,7 @@ contract AuctionNft is ERC721Holder{
     uint amount = details.highestBid;
     if ( amount > 0)
     {
-      details.highestBid = 0;
+      details.highestBid = 0; // avoid reentrancy
       msg.sender.transfer(amount);
     }
     emit BidClaimed(msg.sender);
