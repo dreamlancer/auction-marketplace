@@ -1,5 +1,8 @@
 pragma solidity ^0.6.0;
 
+/// @title A contract to handle NFTs
+/// @author Thibault
+
 import "node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "node_modules/@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
@@ -89,6 +92,10 @@ contract AuctionERC721 is ERC721, Ownable, IAuctionERC721 {
   }
   */
 
+  /**
+     * @dev to burn a token from the supply.
+     * @param _tokenId uint256 id of the token.
+     */
   function removeToken(uint256 _tokenId)
   external
   onlyTokenOwner(_tokenId)
@@ -101,6 +108,7 @@ contract AuctionERC721 is ERC721, Ownable, IAuctionERC721 {
      * @dev Internal function creating a new token.
      * @param _uri string metadata uri associated with the token
      * @param _creator address of the creator of the token.
+     * @return newId updated
      */
   function _createToken(string memory _uri, address _creator)
   internal
@@ -114,6 +122,10 @@ contract AuctionERC721 is ERC721, Ownable, IAuctionERC721 {
     return newId;
   }
 
+  /**
+     * @dev External function to retrieve the list of tokenIds owned by one address (msg.sender).
+     * @return an array of Ids
+     */
   function getTokenCreators()
   external
   view
@@ -128,6 +140,10 @@ contract AuctionERC721 is ERC721, Ownable, IAuctionERC721 {
     return result;
   }
 
+  /**
+     * @dev External function to retrieve the current NFT balance of an address.
+     * @return a balance counting the number of NFTs msg.sender owns
+     */
   function getBalance()
   external
   view

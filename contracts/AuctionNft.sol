@@ -1,5 +1,8 @@
 pragma solidity ^0.6.0;
 
+/// @title A contract to handle auctions for NFTs
+/// @author Thibault
+
 import "node_modules/@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "node_modules/@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/math/SafeMath.sol";
@@ -83,7 +86,13 @@ contract AuctionNft is ERC721Holder{
   }
   */
 
-  //in the createauction function, we will send ownership of the tokenId to the contract itself
+  /**
+     * @dev Function to create an auction
+     * @param _tokenERC721 which is the address of the deployed contract used to create our NFT
+     * @param _startPrice start price of the auction
+     * @param _tokenId tokenid of the NFT to auction
+     * @return _accountId updated
+     */
   function createAuction(address _tokenERC721, uint256 _startPrice, uint _tokenId)
   public
   returns (uint _accountId)
@@ -115,7 +124,10 @@ contract AuctionNft is ERC721Holder{
     return auctionCount;
   }
 
-
+  /**
+     * @dev Internal function called from createAuction to actually start the auction
+     * @param _auctionId as parameter
+     */
   function startAuction (uint _auctionId)
   internal
   {
@@ -127,6 +139,11 @@ contract AuctionNft is ERC721Holder{
     emit NewAuctionStarted(msg.sender, _auctionId, details.startPrice, details.highestBid);
   }
 
+  /**
+     * @dev External function to bid on a created auction
+     * @dev Payable as it receives ether
+     * @param _auctionId as parameter
+     */
   function bidAuction (uint _auctionId)
   external
   payable
@@ -146,6 +163,10 @@ contract AuctionNft is ERC721Holder{
     emit HighestBidIncreased(msg.sender, msg.value);
   }
 
+  /**
+     * @dev Function for an auctioneer to end an auction
+     * @param _auctionId as parameter
+     */
   function endAuction (uint _auctionId)
   public
   {
@@ -157,6 +178,10 @@ contract AuctionNft is ERC721Holder{
     emit AuctionEnded(_auctionId);
   }
 
+  /**
+     * @dev Function to claim an NFT for a winner to be called once the auction is over
+     * @param _auctionId as parameter
+     */
   function withdrawNft (uint256 _auctionId)
   public
   {
@@ -174,6 +199,10 @@ contract AuctionNft is ERC721Holder{
     //safeTransferFrom(details.auctioneer, msg.sender, details.tokenId);
   }
 
+  /**
+     * @dev Function to withdraw a bid once the auction is over
+     * @param _auctionId as parameter
+     */
   function withdrawBid (uint256 _auctionId)
   public
   {
@@ -194,6 +223,10 @@ contract AuctionNft is ERC721Holder{
     emit BidWithdrawn(msg.sender);
   }
 
+  /**
+     * @dev Function for the auctioneer to withdraw the highest bid once the auction is over
+     * @param _auctionId as parameter
+     */
   function withdrawHighestBid (uint256 _auctionId)
   public
   {
@@ -208,7 +241,11 @@ contract AuctionNft is ERC721Holder{
     }
     emit BidClaimed(msg.sender);
   }
-
+  /**
+     * @dev Function called upon deployment of this contract and used to set a state variable to the deployed address of the ERC721 contract deployed in the deployment script
+     * @dev can only be called by original deployer
+     * @param _auctionERC721 address of ERC721 contract deployed as parameter
+     */
   function setContractERC721(address _auctionERC721)
   public
   onlyOwner
@@ -217,6 +254,10 @@ contract AuctionNft is ERC721Holder{
     emit NewAuctionERC721(_auctionERC721, now);
   }
 
+  /**
+     * @dev External function to retrieve the current number of auctions already created
+     * @return a number of auctions from the array
+     */
   function getNumberOfAuctions()
   external
   view
@@ -225,6 +266,11 @@ contract AuctionNft is ERC721Holder{
     return nftAuctions.length;
   }
 
+  /**
+     * @dev External function to retrieve all the info of a specific auction
+     * @param _auctionId as parameter
+     * @return all the attributes and characteristics of an auction
+     */
   function getAuctionInfo(uint256 _auctionId)
   external
   view
