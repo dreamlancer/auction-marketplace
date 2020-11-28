@@ -27,6 +27,8 @@ contract AuctionNft is ERC721Holder{
   //counter for number of auctions
   uint256 public auctionCount;
 
+  bool private stopped = false;
+
   // Allowed withdrawals of previous bids
   // pull over push design
   //"a bidder can bid on different auctions a specific amount"
@@ -68,6 +70,12 @@ contract AuctionNft is ERC721Holder{
     _;
   }
 
+  modifier stopInEmergency() {
+    require(stopped == false, "circuit breaker enabled");
+    _;
+  }
+
+
   constructor(address _auctionERC721)
   public
   {
@@ -85,7 +93,12 @@ contract AuctionNft is ERC721Holder{
     return 0x150b7a02;
   }
   */
-
+  function toggleStop()
+  onlyOwner
+  public
+  {
+    stopped = true;
+  }
   /**
      * @dev Function to create an auction
      * @param _tokenERC721 which is the address of the deployed contract used to create our NFT
@@ -205,6 +218,7 @@ contract AuctionNft is ERC721Holder{
      */
   function withdrawBid (uint256 _auctionId)
   public
+  stopInEmergency
   {
     //to implement pull over push pattern
     //AuctionDetails memory details = auctions[_auctionId];
@@ -229,6 +243,7 @@ contract AuctionNft is ERC721Holder{
      */
   function withdrawHighestBid (uint256 _auctionId)
   public
+  stopInEmergency
   {
     AuctionDetails storage details = auctions[_auctionId];
     require(details.auctionComplete == true, "Auction must be active");
