@@ -80,6 +80,8 @@ Refresh the page once.
 
 You should now be able to interact with the application. At least 3 accounts should be created to fully interact with the DApp.
 
+To note: before clicking "retrieve latest auction details", please refresh the page once. Also, the "retrieve all Auctions" button does not display all auctions properly.
+
 #### Testing
 
 You may also want to run the tests that were defined for this project.
