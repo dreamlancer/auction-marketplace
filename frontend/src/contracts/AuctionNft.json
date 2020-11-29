@@ -20046,10 +20046,163 @@
       "links": {},
       "address": "0xb2d893DEbde1BecaD93428945439220034A94962",
       "transactionHash": "0xfc8596f40113419f13e5133b975a76e971238fe412feef60448c1b9fb793b853"
+    },
+    "1606634672384": {
+      "events": {
+        "0x45806e512b1f4f10e33e8b3cb64d1d11d998d8c554a95e0841fc1c701278bd5d": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_auctionId",
+              "type": "uint256"
+            }
+          ],
+          "name": "AuctionEnded",
+          "type": "event"
+        },
+        "0x78f1d0b64e72ddc09a2e9e6d495c4e97c893c89ebabaf824c6f08ce9f94ceaf2": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "_auctioneer",
+              "type": "address"
+            }
+          ],
+          "name": "BidClaimed",
+          "type": "event"
+        },
+        "0xe4b292cd5a573e1d0cf3c41a161b96cd6639bf4523291e9efbd663177c99d744": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "_bidder",
+              "type": "address"
+            }
+          ],
+          "name": "BidWithdrawn",
+          "type": "event"
+        },
+        "0xf4757a49b326036464bec6fe419a4ae38c8a02ce3e68bf0809674f6aab8ad300": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "_currentWinner",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_highestBid",
+              "type": "uint256"
+            }
+          ],
+          "name": "HighestBidIncreased",
+          "type": "event"
+        },
+        "0x6761564db36e731a0f30bd12df9cbb4d1bf73acc82096f20663bf7dd993fdacb": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "_auctioneer",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_auctionId",
+              "type": "uint256"
+            }
+          ],
+          "name": "NewAuctionCreated",
+          "type": "event"
+        },
+        "0xc3ed467480c03780e2ec27d1db0b8101f06a31fc4b8dca9290c5511ec3b6df6b": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": true,
+              "internalType": "address",
+              "name": "_auctionERC721",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_timestamp",
+              "type": "uint256"
+            }
+          ],
+          "name": "NewAuctionERC721",
+          "type": "event"
+        },
+        "0x9b1d51aaa80e9b8f56dc82526e9acc4610f1a9d7ae8e515a96298aeeba9d611b": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "_creator",
+              "type": "address"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_auctionId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_startPrice",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_highestBid",
+              "type": "uint256"
+            }
+          ],
+          "name": "NewAuctionStarted",
+          "type": "event"
+        },
+        "0x86a3374ba35fb0c6f52fad391c301c68cb35fc2dfca56d552513608af2dc3d6c": {
+          "anonymous": false,
+          "inputs": [
+            {
+              "indexed": false,
+              "internalType": "uint256",
+              "name": "_tokenId",
+              "type": "uint256"
+            },
+            {
+              "indexed": false,
+              "internalType": "address",
+              "name": "_nftWinner",
+              "type": "address"
+            }
+          ],
+          "name": "NftWithdrawn",
+          "type": "event"
+        }
+      },
+      "links": {},
+      "address": "0x15e4f41fd4C6c1Ddcb0AA161B8D1B8ef1237b9d3",
+      "transactionHash": "0xd619ca462573387071b578db9e8d2664ea7d29d9c5ef52bab41e9ebc20e40018"
     }
   },
   "schemaVersion": "3.3.1",
-  "updatedAt": "2020-11-28T16:56:33.500Z",
+  "updatedAt": "2020-11-29T07:24:57.523Z",
   "networkType": "ethereum",
   "devdoc": {
     "details": "Our contract needs to support safeTransfers",

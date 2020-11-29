@@ -11,6 +11,7 @@ function Auction( {auctionNft, auctionERC721} ) {
   const [bid, setBid] = useState(0);
   const [loading, setLoading] = useState(false);
   const [loadingBid, setLoadingBid] = useState(false);
+  const [detailAuction, setDetailAuction] = useState([]);
   //const [error, setError] = useState({});
 
   //useEffect(() => {
@@ -26,6 +27,8 @@ function Auction( {auctionNft, auctionERC721} ) {
      for (let i =0; i < numberOfAuctions; i++) {
 
        const result = await auctionNft.getAuctionInfo(i);
+       console.log(result);
+       //setVisibleAuctions(result);
        items.push(parseInt(result));
     }
 
@@ -34,7 +37,29 @@ function Auction( {auctionNft, auctionERC721} ) {
    console.log(visibleAuctions);
    };
    //getAuction();
-//}, []);
+   //}, []);
+
+
+
+   const getLatestAuction = async (t) => {
+
+     if (auctionNft) {
+      t.preventDefault();
+      const result = await auctionNft.getAuctionInfo(auction);
+      console.log(result);
+      let items = [];
+      for (let i = 0; i < result.length; i++) {
+        items.push({id: parseInt(result[i])});
+      }
+      console.log(items);
+      setDetailAuction(items);
+      console.log(detailAuction);
+    }
+
+   };
+
+
+
   const bidAuction = async (t) => {
     if (auctionNft) {
       try {
@@ -67,7 +92,7 @@ function Auction( {auctionNft, auctionERC721} ) {
          const accounts = await window.ethereum.enable();
          const account = accounts[0];
          //const approved = await auctionERC721.approve(account, 10);
-         const claimN = await auctionNft.endAuction(auction);
+         const claimN = await auctionNft.withdrawNft(auction);
        } catch {
         //setError(err);
         setLoading(true);
@@ -80,7 +105,7 @@ function Auction( {auctionNft, auctionERC721} ) {
      t.preventDefault();
      const accounts = await window.ethereum.enable();
      const account = accounts[0];
-     const claim = await auctionNft.endAuction(auction);
+     const claim = await auctionNft.withdrawBid(auction);
     }
   };
 
@@ -90,7 +115,7 @@ return(
   <div className="cargo">
     <div className="case">
         <button className="button" onClick={getAuction} type="button">
-          Retrieve Auctions
+          Retrieve all Auctions
         </button>
 
         <div className="result">
@@ -98,6 +123,48 @@ return(
         {visibleAuctions}
 
         </div>
+       <br>
+       </br>
+       <br>
+       </br>
+       <br>
+       </br>
+       <br>
+       </br>
+       <br>
+       </br>
+       <br>
+       </br>
+
+
+       <form className="form" onSubmit={getLatestAuction}>
+             <label>
+               Set the auction:
+               <input
+                 className="input"
+                 type="text"
+                 name="name"
+                 onChange={(t) => setauction(t.target.value)}
+               />
+             </label>
+             <button className="button" type="submit" value="Confirm">
+               Retrieve latest auction details
+             </button>
+             <div className="result">
+              {detailAuction.map(item => (
+                <li
+                  key={item.id}>{item.id}
+                </li>
+              ))}
+             </div>
+       </form>
+
+       <br>
+       </br>
+       <br>
+       </br>
+       <br>
+       </br>
        <br>
        </br>
        <br>
