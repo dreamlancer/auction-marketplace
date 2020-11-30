@@ -109,6 +109,14 @@ function Auction( {auctionNft, auctionERC721} ) {
     }
   };
 
+  const claimWinningBid = async (t) => {
+    if (auctionNft) {
+     t.preventDefault();
+     const accounts = await window.ethereum.enable();
+     const account = accounts[0];
+     const claimW = await auctionNft.withdrawHighestBid(auction);
+    }
+  };
 
 return(
   <div className="main">
@@ -251,7 +259,28 @@ return(
                       onChange={(t) => setauction(t.target.value)}
                     />
                   </label>
+            </form>
+
+            <div>
+            {!loading && (
+            <form className="form" onSubmit={claimWinningBid}>
+                  <button className="button" type="submit" value="Confirm">
+                    Claim the winning bid
+                  </button>
+                  <label>
+                    Set the auction number:
+                    <input
+                      className="input"
+                      type="text"
+                      name="name"
+                      onChange={(t) => setauction(t.target.value)}
+                    />
+                  </label>
               </form>
+              )}
+
+              {loading && <ErrorComponentHigh></ErrorComponentHigh>}
+              </div>
     </div>
  </div>
  </div>
@@ -259,6 +288,9 @@ return(
 
 }
 
+function ErrorComponentHigh() {
+  return <h1> You are not the auctioneer! </h1>
+}
 function ErrorComponentBid() {
   return <h1> Set higher Bid! </h1>
 }
