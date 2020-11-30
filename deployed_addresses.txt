@@ -1,0 +1,8 @@
+Contracts deployed on Rinkeby testnet with address 0x51DdC0EA5A93185D93717E6e6653D9A0c34e1904
+https://rinkeby.etherscan.io/address/0x51ddc0ea5a93185d93717e6e6653d9a0c34e1904
+
+Deployed contract addresses:
+
+  Migrations: 0xEAA8fD16d5F71aEFB53bEA50bE6584588FC199B5
+  AuctionERC721: 0x0b200e516A9E9638b41E203026814DF60Ef8130E
+  AuctionNft: 0xCbb2E41aDE878D14C74bd07bEceCE202b2D09F38
