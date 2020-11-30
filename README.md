@@ -136,4 +136,13 @@ All tests should be passed!
 
 - [x] A document called deployed_addresses.txt that describes where your contracts live (testnet AND address).
 
-- [] A screen recording walking through your Dapp.
+- [x] A screen recording walking through your Dapp.
+
+
+#### Next Functionnalities
+A few extra functionnalities could be implemented in the future:
+- Auction factory
+
+- Timing feature
+
+- Cancel bid feature during bidding phase
