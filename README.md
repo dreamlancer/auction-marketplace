@@ -49,7 +49,7 @@ npm install -g ganache-cli
 
 4. Clone this repo
 ```console
-git clone https://github.com/thibault23/auction-marketplace
+git clone https://github.com/dreamlancer/auction-marketplace
 ```
 
 #### DApp interaction
